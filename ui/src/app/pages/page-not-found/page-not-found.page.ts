@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
 import {RouterLink, RouterLinkActive} from "@angular/router";
 
 @Component({
@@ -9,7 +8,7 @@ import {RouterLink, RouterLinkActive} from "@angular/router";
   templateUrl: './page-not-found.page.html',
   styleUrls: ['./page-not-found.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, RouterLink, RouterLinkActive]
+  imports: [CommonModule, FormsModule, RouterLink, RouterLinkActive]
 })
 export class PageNotFoundPage {
 

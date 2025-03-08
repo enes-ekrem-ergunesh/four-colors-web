@@ -22,6 +22,7 @@ export class NavbarComponent  implements OnInit {
   }])
   active_nav = input<number>(0)
   search = input<boolean>(false)
+  login = input<boolean>(false)
 
   constructor() { }
 

@@ -38,10 +38,11 @@
           </ng-template>
         </li>
       </ul>
-      <form *ngIf="search()" class="d-flex" role="search">
+      <form *ngIf="search()" class="d-flex me-auto mb-3 mb-lg-0" role="search">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
+      <button *ngIf="login()" class="btn btn-primary" routerLink="/login">Login</button>
     </div>
   </div>
 </nav>
