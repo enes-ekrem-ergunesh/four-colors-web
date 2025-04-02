@@ -1,0 +1,9 @@
+DELIMITER $$
+
+CREATE PROCEDURE delete_all_tokens()
+BEGIN
+  DELETE FROM tokens
+  WHERE true;
+END$$
+
+DELIMITER ;

@@ -1,0 +1,66 @@
+<form id="bs-login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="needs-validation" novalidate>
+  <div class="form-floating mb-3">
+    <input
+      class="form-control"
+      id="email-bs-input"
+      placeholder="Enter email here"
+      formControlName="email"
+      type="email"
+      required
+    >
+    <label for="email-bs-input">Email</label>
+    <div class="invalid-feedback">
+      {{ get_error('email') }}
+    </div>
+  </div>
+
+  <div class="form-floating mb-3">
+    <input
+      class="form-control"
+
+      id="password-bs-input"
+      placeholder="Enter password here"
+      formControlName="password"
+      [type]="passwordInputType"
+      required
+    >
+    <label for="password-bs-input">Password</label>
+    <div class="invalid-feedback">
+      {{ get_error('password') }}
+    </div>
+    <button
+      id="bs-show-hide-password-button"
+      class="show-hide-password-button bs-show-hide-password-button"
+      slot="end"
+      aria-label="Show/hide"
+      (click)="showHidePassword()"
+      [style]="showHidePasswordButtonStyle()"
+      type="button"
+    >
+      <ion-icon slot="icon-only" [name]="showHidePasswordIcon" aria-hidden="true"></ion-icon>
+    </button>
+  </div>
+
+  <div class="form-floating mb-3">
+    <div class="form-check">
+      <input
+        id="bs-remember-me-checkbox"
+        class="form-check-input"
+        type="checkbox"
+        value=""
+        formControlName="remember_me"
+      >
+      <label class="form-check-label" for="bs-remember-me-checkbox">
+        Remember me
+      </label>
+    </div>
+  </div>
+
+  <a></a>
+
+  <div>
+    <button id="bs-submit-button" type="submit" class="btn btn-primary w-100">Sign in</button>
+  </div>
+
+
+</form>

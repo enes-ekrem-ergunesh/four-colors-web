@@ -1,0 +1,24 @@
+# export db from docker to the current dir (db structure only)
+sudo docker exec -it fc14 /bin/bash # connect to the container
+
+mysqldump -p'ewq123' --no-data main > /home/fourcolors.sql # export to home dir
+
+sudo docker cp fc14:/home/fourcolors.sql ./ # copy the exported data to the current directory
+
+--------------------------------------
+
+# create a new mysql container
+sudo docker run -d --name fc14 -p 3314:3306 -e MYSQL_ROOT_PASSWORD=ewq123 mysql:8.4.4
+
+--------------------------------------
+
+# import db from the current dir to docker
+sudo docker cp ./fourcolors.sql fc14:/home # copy the .sql file to the container
+
+sudo docker exec -it fc14 /bin/bash # connect to the container
+
+mysql -u root -p'ewq123' -e "CREATE SCHEMA main;" # create new schema on mysql
+
+mysql -u root -p'ewq123' main < /home/fourcolors.sql # import data from the file to the schema
+
+# For Windows: sudo commands should be deleted, and the path should be changed to the Windows format.

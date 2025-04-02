@@ -1,12 +1,12 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar bg-body-tertiary" [class.navbar-expand-lg]="expand()">
   <div class="container-fluid">
     <a class="navbar-brand" routerLink="/home" routerLinkActive="active" ariaCurrentWhenActive="page">LOGO</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+    <button *ngIf="expand()" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+    <div [class]="expand() ? 'collapse navbar-collapse' : ''" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-lg-0" [class.mb-2]="expand()">
         <li *ngFor="let n of navs(); index as i" [class]="'nav-item ' + (n.dropdown ? 'dropdown' : '')">
           <a
             *ngIf="!n.dropdown; else Dropdown"
@@ -43,6 +43,8 @@
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
       <button *ngIf="login()" class="btn btn-primary" routerLink="/login">Login</button>
+      <button *ngIf="profile_page()" class="btn btn-primary" routerLink="/my">{{userName}}</button>
+      <button *ngIf="logout()" class="btn btn-outline-danger" (click)="onLogout()">Logout</button>
     </div>
   </div>
 </nav>
