@@ -4,7 +4,6 @@ from flask_restx import Namespace, Resource, fields
 import dao.userDao as userDao
 
 from objects.User import User
-from namespaces.adminNamespace import block_admin
 
 dao = userDao.UserDAO()
 
@@ -25,6 +24,11 @@ user_model = ns.model('User', {
     'type': fields.String(required=True, description='User type')
 })
 
+def block_admin():
+    user = User(user_id=request.user_id)
+    if user.is_admin:
+        print("409: Admin accounts are not supported, please use a regular user account")
+        ns.abort(409, "Admin accounts are not supported, please use a regular user account")
 
 @ns.route('/self')
 class UserSelf(Resource):
