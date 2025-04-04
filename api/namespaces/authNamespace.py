@@ -4,6 +4,8 @@ from flask_restx import Namespace, Resource, fields
 from objects.User import User
 from objects.Token import Token
 
+from special_logger import special_log
+
 ns = Namespace('auth', description='Auth related operations')
 
 """
@@ -41,8 +43,12 @@ class Login(Resource):
         """Login"""
         try:
             user = User(email=ns.payload['email'])
-        except ValueError:
-            ns.abort(401, "Invalid email or password")
+        except ValueError as ve:
+            special_log("/login", str(ve), email=ns.payload['email'])
+            if str(ve) == 'User not found for given email':
+                ns.abort(401, "Invalid email or password")
+                return
+            ns.abort(401, ve)
             return
         password_match = user.password_match(ns.payload['password'])
         if not password_match:

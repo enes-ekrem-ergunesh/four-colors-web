@@ -53,6 +53,8 @@ class User:
         if data.get("type"):
             self.type = data.get("type")
         details = User.user_details_dao.get_by_id(self.id)
+        if not details:
+            raise ValueError("User details not found for given user id")
         self._set_detail_attributes(details)
 
     def _set_detail_attributes(self, details):
