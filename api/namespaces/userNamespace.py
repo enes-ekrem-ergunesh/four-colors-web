@@ -25,8 +25,9 @@ user_model = ns.model('User', {
     'type': fields.String(required=True, description='User type')
 })
 
-def block_admin():
-    user = User(user_id=request.user_id)
+def block_admin(user=None):
+    if not user:
+        user = User(user_id=request.user_id)
     if user.is_admin:
         print("409: Admin accounts are not supported, please use a regular user account")
         ns.abort(409, "Admin accounts are not supported, please use a regular user account")

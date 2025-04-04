@@ -44,7 +44,7 @@ class Login(Resource):
         password_match = user.password_match(ns.payload['password'])
         if not password_match:
             ns.abort(401, "Invalid email or password")
-        block_admin()
+        block_admin(user)
         token = Token(user_id=user.id, delta_seconds=(3600 * 24 * 7) if ns.payload['remember_me'] else 3600)
         return token
 
