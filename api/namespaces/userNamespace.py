@@ -28,8 +28,10 @@ user_model = ns.model('User', {
 def block_admin(user=None):
     if not user:
         user = User(user_id=request.user_id)
+    else:
+        if user.is_admin: # Admin logges in with user account
+            ns.abort(401, "Invalid email or password") # do not expose admin account 
     if user.is_admin:
-        print("409: Admin accounts are not supported, please use a regular user account")
         ns.abort(409, "Admin accounts are not supported, please use a regular user account")
 
 def get_user_object(email=None, user_id=None):

@@ -38,16 +38,16 @@ export class ConfigService {
       alertType = 'danger'
     } else if (error.status < 200) {
       alertType = 'info'
-      alertTimeout = 3000
+      alertTimeout = 2000
     } else if (error.status < 300) {
       alertType = 'success'
       alertTimeout = 2000
     } else if (error.status < 400) {
       alertType = 'warning'
-      alertTimeout = 4000
+      alertTimeout = 3000
     } else if (error.status < 500) {
       alertType = 'danger'
-      alertTimeout = 4000
+      alertTimeout = 3000
     } else {
       alertType = 'danger'
     }
