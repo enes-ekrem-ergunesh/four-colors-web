@@ -1,10 +1,9 @@
 from flask import request
 from flask_restx import Namespace, Resource, fields
 
-from objects.User import User
 from objects.Token import Token
 
-from special_logger import special_log
+from namespaces.userNamespace import get_user_object, block_admin
 
 ns = Namespace('auth', description='Auth related operations')
 
@@ -41,18 +40,11 @@ class Login(Resource):
     @ns.marshal_with(token_model)
     def post(self):
         """Login"""
-        try:
-            user = User(email=ns.payload['email'])
-        except ValueError as ve:
-            special_log("/login", str(ve), email=ns.payload['email'])
-            if str(ve) == 'User not found for given email':
-                ns.abort(401, "Invalid email or password")
-                return
-            ns.abort(401, ve)
-            return
+        user = get_user_object(email=ns.payload['email'])
         password_match = user.password_match(ns.payload['password'])
         if not password_match:
             ns.abort(401, "Invalid email or password")
+        block_admin()
         token = Token(user_id=user.id, delta_seconds=(3600 * 24 * 7) if ns.payload['remember_me'] else 3600)
         return token
 

@@ -1,6 +1,6 @@
 from flask import request
 from flask_restx import Namespace, Resource, fields
-from namespaces.userNamespace import user_model
+from namespaces.userNamespace import user_model, get_user_object
 from namespaces.authNamespace import token_model
 
 from objects.User import User, UserManager
@@ -26,11 +26,7 @@ class AdminLogin(Resource):
     @ns.marshal_with(token_model)
     def post(self):
         """Login test"""
-        try:
-            user = User(email=ns.payload['email'])
-        except ValueError:
-            ns.abort(401, "Invalid email or password")
-            return
+        user = get_user_object(email=ns.payload['email'])
         password_match = user.password_match(ns.payload['password'])
         if not password_match:
             ns.abort(401, "Invalid email or password")

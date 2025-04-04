@@ -4,6 +4,7 @@ from flask_restx import Namespace, Resource, fields
 import dao.userDao as userDao
 
 from objects.User import User
+from special_logger import special_log
 
 dao = userDao.UserDAO()
 
@@ -29,6 +30,30 @@ def block_admin():
     if user.is_admin:
         print("409: Admin accounts are not supported, please use a regular user account")
         ns.abort(409, "Admin accounts are not supported, please use a regular user account")
+
+def get_user_object(email=None, user_id=None):
+    user = None
+    def exception_handler(e):
+        special_log("/login", str(e), email=ns.payload['email'])
+        if str(e) == 'User not found for given email':
+            ns.abort(401, "Invalid email or password")
+            return
+        ns.abort(401, e)
+        return
+    if email:
+        try:
+            user = User(email=ns.payload['email'])
+        except ValueError as ve:
+            exception_handler(ve)
+    elif user_id:
+        try:
+            user = User(email=ns.payload['email'])
+        except ValueError as ve:
+            exception_handler(ve)
+    else:
+        ns.abort(500, "Internal server error: email or user_id is required")
+        return
+    return user
 
 @ns.route('/self')
 class UserSelf(Resource):
