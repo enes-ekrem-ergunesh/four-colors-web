@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  api_url: 'https://4colorseducenter.com/api/',
+  api_url: 'https://4colorseducenter.com/api',
 };
