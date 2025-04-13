@@ -1,21 +1,25 @@
-import {Component, OnInit} from '@angular/core';
-import {NavbarComponent} from "../../components/complex/navbar/navbar.component";
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import {Nav} from "../../interfaces/ui/nav";
-import {StorageService} from "../../services/storage/storage.service";
+import {NavbarComponent} from "../../components/complex/navbar/navbar.component";
 import {User} from "../../interfaces/api/user";
-import {Token} from "../../interfaces/api/token";
+import {StorageService} from "../../services/storage/storage.service";
 import {UserService} from "../../services/api/user/user.service";
-import {catchError} from "rxjs";
 import {ConfigService} from "../../services/config/config.service";
-import {HomeCarouselComponent} from "./home-carousel/home-carousel.component";
+import {catchError} from "rxjs";
+import {AboutWhoWeAreComponent} from "./about-who-we-are/about-who-we-are.component";
+import {AboutIdeaComponent} from "./about-idea/about-idea.component";
+import {AboutTimelineComponent} from "./about-timeline/about-timeline.component";
 
 @Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
-  imports: [NavbarComponent, HomeCarouselComponent],
+  selector: 'app-about',
+  templateUrl: './about.page.html',
+  styleUrls: ['./about.page.scss'],
+  standalone: true,
+  imports: [CommonModule, FormsModule, NavbarComponent, AboutWhoWeAreComponent, AboutIdeaComponent, AboutTimelineComponent]
 })
-export class HomePage implements OnInit {
+export class AboutPage implements OnInit {
   navs: Nav[] = [
     {
       name: 'Home',
@@ -54,8 +58,7 @@ export class HomePage implements OnInit {
     private storageService: StorageService,
     private userService: UserService,
     private configService: ConfigService,
-  ) {
-  }
+    ) { }
 
   async ngOnInit() {
     const token = await this.storageService.get('token')
@@ -72,4 +75,5 @@ export class HomePage implements OnInit {
         })
     }
   }
+
 }

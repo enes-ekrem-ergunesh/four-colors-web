@@ -41,7 +41,7 @@
     </button>
   </div>
 
-  <div class="form-floating mb-3">
+  <div *ngIf="!is_admin()" class="form-floating mb-3">
     <div class="form-check">
       <input
         id="bs-remember-me-checkbox"

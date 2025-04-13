@@ -9,6 +9,7 @@ import {catchError} from "rxjs";
 import {AdminService} from "../../../services/api/admin/admin.service";
 import {UserService} from "../../../services/api/user/user.service";
 import {User} from "../../../interfaces/api/user";
+import {Dropdown} from "bootstrap";
 
 @Component({
   selector: 'app-navbar',
@@ -35,6 +36,7 @@ export class NavbarComponent implements OnInit, OnChanges {
   is_admin_page = input<boolean>(false)
 
   userName = ''
+  dropdownList: Dropdown[] = []
 
   constructor(
     private authService: AuthService,
@@ -50,6 +52,17 @@ export class NavbarComponent implements OnInit, OnChanges {
     if (this.profile_page()) {
       await this.getUserName()
     }
+
+    setTimeout(() => {
+      const dropdownElementList = document.querySelectorAll('.dropdown-toggle')
+      console.log(dropdownElementList)
+      if (dropdownElementList) {
+        for (let i = 0; i < dropdownElementList.length; i++) {
+          const dropdown = new Dropdown(dropdownElementList[i])
+          this.dropdownList.push(dropdown)
+        }
+      }
+    }, 500)
   }
 
   async ngOnChanges(changes: SimpleChanges) {
@@ -109,6 +122,11 @@ export class NavbarComponent implements OnInit, OnChanges {
           this.userName = _user.first_name + ' ' + _user.last_name
         }
       })
+  }
+
+  dropdownToggle() {
+    console.log(this.dropdownList)
+    this.dropdownList[0].toggle()
   }
 
 }

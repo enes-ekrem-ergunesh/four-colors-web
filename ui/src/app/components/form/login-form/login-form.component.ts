@@ -1,9 +1,10 @@
-import {Component, OnInit, output} from '@angular/core';
+import {Component, input, OnInit, output} from '@angular/core';
 import {addIcons} from "ionicons";
 import {eye, eyeOff} from "ionicons/icons";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {AuthService} from "../../../services/api/auth/auth.service";
 import {IonIcon} from "@ionic/angular/standalone";
+import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-login-form',
@@ -11,11 +12,13 @@ import {IonIcon} from "@ionic/angular/standalone";
   styleUrls: ['./login-form.component.scss'],
   imports: [
     ReactiveFormsModule,
-    IonIcon
+    IonIcon,
+    NgIf
   ],
   standalone: true
 })
 export class LoginFormComponent  implements OnInit {
+  is_admin = input(false)
   formSubmission = output<FormGroup>();
 
   showHidePasswordIcon = 'eye';
@@ -28,8 +31,8 @@ export class LoginFormComponent  implements OnInit {
   ]
 
   loginForm = new FormGroup({
-    email: new FormControl('enes@dev', this.emailValidators),
-    password: new FormControl('string', Validators.required),
+    email: new FormControl('', this.emailValidators),
+    password: new FormControl('', Validators.required),
     remember_me: new FormControl(false)
   })
 

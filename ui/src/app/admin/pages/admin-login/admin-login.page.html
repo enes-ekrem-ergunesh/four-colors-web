@@ -1,5 +1,5 @@
 <app-navbar [navs]="[]" [is_admin_page]="true"></app-navbar>
 <div class="center-container">
   <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
-  <app-login-form (formSubmission)="onLoginFormSubmit($event)"></app-login-form>
+  <app-login-form [is_admin]="true" (formSubmission)="onLoginFormSubmit($event)"></app-login-form>
 </div>

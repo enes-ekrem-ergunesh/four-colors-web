@@ -20,7 +20,7 @@
             {{ n.name }}
           </a>
           <ng-template #Dropdown>
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a (click)="dropdownToggle()" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               {{ n.name }}
             </a>
             <ul class="dropdown-menu">

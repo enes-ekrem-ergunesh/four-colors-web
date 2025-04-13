@@ -1,0 +1,46 @@
+.carousel-control-container{
+  background-color: rgba(var(--bs-body-color-rgb), 0);
+  padding: 18px;
+  border-radius: 3px;
+}
+
+.carousel:hover .carousel-control-container{
+  background-color: rgba(var(--bs-body-color-rgb), 0.5);
+}
+
+.carousel-caption h5, p {
+  width: fit-content;
+  background-color: rgba(var(--bs-body-color-rgb), 0.6);
+  box-shadow: 0 0 16px 9px rgba(var(--bs-body-color-rgb), 0.7);
+  border-radius: 8px;
+}
+
+.carousel-indicators button {
+  border: 1px solid rgba(var(--bs-body-color-rgb), 0.7);
+}
+
+ion-button {
+  background-color: rgba(var(--bs-body-color-rgb), 0.7);
+  border-radius: 16px;
+}
+
+.carousel-indicators {
+  margin-bottom: 0.5rem;
+}
+
+.image-size {
+  width: 2000px;
+  aspect-ratio: 3;
+}
+
+@media (max-aspect-ratio: 0.75) {
+  .image-size {
+    width: 2000px;
+    aspect-ratio: 1.5;
+  }
+}
+
+img {
+  object-fit: cover;
+}
+

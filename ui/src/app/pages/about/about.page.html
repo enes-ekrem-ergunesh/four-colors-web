@@ -1,0 +1,16 @@
+<app-navbar [navs]="navs" [active_nav]="4" [search]="true" [login]="user === null" [profile_page]="user !== null"></app-navbar>
+<div class="container-fluid container-xxl">
+  <div class="row mt-5">
+    <div class="col-6 px-5 border-end">
+      <app-about-who-we-are></app-about-who-we-are>
+    </div>
+    <div class="col-6 px-5">
+      <app-about-idea></app-about-idea>
+    </div>
+  </div>
+  <div class="row mt-5">
+    <div class="col">
+      <app-about-timeline></app-about-timeline>
+    </div>
+  </div>
+</div>

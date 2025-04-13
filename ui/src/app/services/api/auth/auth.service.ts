@@ -64,7 +64,7 @@ export class AuthService {
     return this.http.post(this.api_url + '/auth/login', data)
       .pipe(
         catchError(error => {
-          this.configService.errorHandler(error, true)
+          this.configService.errorHandler(error, false, false)
           throw error
         })
       )

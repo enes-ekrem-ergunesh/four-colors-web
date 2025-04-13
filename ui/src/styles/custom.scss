@@ -4,3 +4,8 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+.page-component-container {
+  overflow: auto;
+  height: calc(100vh - 56px);
+}

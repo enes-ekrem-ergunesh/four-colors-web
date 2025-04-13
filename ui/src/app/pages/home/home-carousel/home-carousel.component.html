@@ -1,0 +1,60 @@
+<div class="container-fluid container-xxl my-0 mx-auto p-0">
+  <div class="row m-0 p-0 justify-content-center">
+    <div class="col-auto m-0 p-0">
+      <div id="homeCarousel" class="carousel slide">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#homeCarousel" data-bs-slide-to="0" class="active my-auto"
+                  aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#homeCarousel" data-bs-slide-to="1" class="my-auto"
+                  aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#homeCarousel" data-bs-slide-to="2" class="my-auto"
+                  aria-label="Slide 3"></button>
+          <ion-button size="small" fill="clear" color="light" (click)="onCarouselPausePlay()">
+            <ion-icon id="play-pause-icon" slot="icon-only" [name]="carouselPaused? 'play': 'pause'"></ion-icon>
+          </ion-button>
+        </div>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="../../../../assets/carousel-sample.png" class="d-block image-size"
+                 alt="A vibrant and engaging image for the carousel of an online education company homepage, featuring diverse students learning with laptops and books in a modern, bright setting">
+            <div class="carousel-caption d-none d-md-block text-start">
+              <h5>First slide label</h5>
+              <p>Some representative placeholder content for the first slide.</p>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img src="../../../../assets/carousel-sample.png" class="d-block image-size"
+                 alt="A vibrant and engaging image for the carousel of an online education company homepage, featuring diverse students learning with laptops and books in a modern, bright setting">
+            <div class="carousel-caption d-none d-md-block text-center">
+              <h5>Second slide label</h5>
+              <p>Some representative placeholder content for the second slide.</p>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img src="../../../../assets/carousel-sample.png" class="d-block image-size"
+                 alt="A vibrant and engaging image for the carousel of an online education company homepage, featuring diverse students learning with laptops and books in a modern, bright setting">
+            <div class="carousel-caption d-none d-md-block text-end">
+              <h5>Third slide label</h5>
+              <p>Some representative placeholder content for the third slide.</p>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#homeCarousel"
+                data-bs-slide="prev">
+          <div class="carousel-control-container">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          </div>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button id="carousel-next-button" class="carousel-control-next" type="button" data-bs-target="#homeCarousel"
+                data-bs-slide="next">
+          <div class="carousel-control-container">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          </div>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<br>

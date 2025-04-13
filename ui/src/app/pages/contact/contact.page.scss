@@ -1,0 +1,28 @@
+li p {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.list-group-item:first-child {
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+.list-group-item:last-child {
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+
+.custom-link {
+  color: var(--bs-table-color);
+  transition: color 0.2s ease-in-out;
+}
+
+.custom-link:hover {
+  cursor: pointer;
+  color: var(--bs-link-color);
+}
+
+.width-fit {
+  width: fit-content;
+}
