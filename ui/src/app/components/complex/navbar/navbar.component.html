@@ -1,12 +1,17 @@
-<nav class="navbar bg-body-tertiary" [class.navbar-expand-lg]="expand()">
+<nav class="navbar bg-body-tertiary" [class.navbar-expand-lg]="expand()" [class.navbar-expand]="!expand()">
   <div class="container-fluid">
-    <a class="navbar-brand" routerLink="/home" routerLinkActive="active" ariaCurrentWhenActive="page">LOGO</a>
-    <button *ngIf="expand()" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <a class="navbar-brand p-0 d-flex" routerLink="/home" routerLinkActive="active" ariaCurrentWhenActive="page">
+      <img src="assets/logo.png" alt="Logo" width="36" height="36" class="d-inline-block align-text-top">
+      <div class="d-flex flex-column m-0 p-0 ms-2">
+        <p class="logo-title logo-title-top">4 Colors</p>
+        <p class="logo-title logo-title-bottom">Education Center</p>
+      </div>
+    </a>
+    <button (click)="navbarCollapseToggle()" class="navbar-toggler" type="button">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div [class]="expand() ? 'collapse navbar-collapse' : ''" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-lg-0" [class.mb-2]="expand()">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-lg-0" >
         <li *ngFor="let n of navs(); index as i" [class]="'nav-item ' + (n.dropdown ? 'dropdown' : '')">
           <a
             *ngIf="!n.dropdown; else Dropdown"
@@ -20,7 +25,8 @@
             {{ n.name }}
           </a>
           <ng-template #Dropdown>
-            <a (click)="dropdownToggle()" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a (click)="dropdownToggle()" class="nav-link dropdown-toggle" href="#" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">
               {{ n.name }}
             </a>
             <ul class="dropdown-menu">
@@ -43,7 +49,7 @@
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
       <button *ngIf="login()" class="btn btn-primary" routerLink="/login">Login</button>
-      <button *ngIf="profile_page()" class="btn btn-primary" routerLink="/my">{{userName}}</button>
+      <button *ngIf="profile_page()" class="btn btn-primary" routerLink="/my">{{ userName }}</button>
       <button *ngIf="logout()" class="btn btn-outline-danger" (click)="onLogout()">Logout</button>
     </div>
   </div>

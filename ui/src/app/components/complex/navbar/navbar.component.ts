@@ -10,6 +10,7 @@ import {AdminService} from "../../../services/api/admin/admin.service";
 import {UserService} from "../../../services/api/user/user.service";
 import {User} from "../../../interfaces/api/user";
 import {Dropdown} from "bootstrap";
+import {Collapse} from "bootstrap";
 
 @Component({
   selector: 'app-navbar',
@@ -37,6 +38,7 @@ export class NavbarComponent implements OnInit, OnChanges {
 
   userName = ''
   dropdownList: Dropdown[] = []
+  navbarCollapse: Collapse | undefined
 
   constructor(
     private authService: AuthService,
@@ -127,6 +129,16 @@ export class NavbarComponent implements OnInit, OnChanges {
   dropdownToggle() {
     console.log(this.dropdownList)
     this.dropdownList[0].toggle()
+  }
+
+  navbarCollapseToggle() {
+    if (this.navbarCollapse) {
+      this.navbarCollapse.toggle()
+    } else {
+      const navbarElement = document.querySelector('.navbar-collapse') as HTMLElement
+      this.navbarCollapse = new Collapse(navbarElement)
+      this.navbarCollapse.toggle()
+    }
   }
 
 }
