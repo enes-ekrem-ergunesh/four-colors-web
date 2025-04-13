@@ -125,4 +125,4 @@ dmypy.json
 
 config.json
 app.log
-special-log.txt
+special.log
