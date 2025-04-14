@@ -15,6 +15,8 @@ li p {
 
 .custom-link {
   color: var(--bs-table-color);
+  //color: var(--bs-link-color);
+  text-decoration: underline;
   transition: color 0.2s ease-in-out;
 }
 
