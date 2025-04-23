@@ -1,0 +1,9 @@
+.custom-link {
+  color: var(--bs-table-color);
+  transition: color 0.2s ease-in-out;
+}
+
+.custom-link:hover {
+  cursor: pointer;
+  color: var(--bs-link-color);
+}

@@ -1,22 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import {Nav} from "../../../interfaces/ui/nav";
 import {NavbarComponent} from "../../../components/complex/navbar/navbar.component";
 import {UserTableComponent} from "../../../components/complex/user-table/user-table.component";
-import {AdminService} from "../../../services/api/admin/admin.service";
-import {User} from "../../../interfaces/api/user";
-import {catchError} from "rxjs";
-import {ConfigService} from "../../../services/config/config.service";
-import {Nav} from "../../../interfaces/ui/nav";
 
 @Component({
-  selector: 'app-admin-home',
-  templateUrl: './admin-home.page.html',
-  styleUrls: ['./admin-home.page.scss'],
+  selector: 'app-admin-teachers',
+  templateUrl: './admin-teachers.page.html',
+  styleUrls: ['./admin-teachers.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, NavbarComponent, UserTableComponent]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, NavbarComponent, UserTableComponent]
 })
-export class AdminHomePage implements OnInit {
+export class AdminTeachersPage implements OnInit {
   navs: Nav[] = [
     {
       name: 'Dashboard',
@@ -32,10 +29,9 @@ export class AdminHomePage implements OnInit {
     },
   ]
 
-  constructor(
-  ) { }
+  constructor() { }
 
-  async ngOnInit() {
+  ngOnInit() {
     return
   }
 

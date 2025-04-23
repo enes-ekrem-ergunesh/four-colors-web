@@ -1,3 +1,60 @@
-<p>
-  user-table works!
-</p>
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col" class="">
+        <div class="d-flex"><span>ID</span>
+          <app-filter-dropdown (sort)="sort($event)" button_id="id" class="ms-auto"></app-filter-dropdown>
+        </div>
+      </th>
+      <th scope="col" class="">
+        <div class="d-flex"><span>Email</span>
+          <app-filter-dropdown (sort)="sort($event)" button_id="email" class="ms-auto"></app-filter-dropdown>
+        </div>
+      </th>
+      <th scope="col" class="">
+        <div class="d-flex"><span>FirstName</span>
+          <app-filter-dropdown (sort)="sort($event)" button_id="first_name" class="ms-auto"></app-filter-dropdown>
+        </div>
+      </th>
+      <th scope="col" class="">
+        <div class="d-flex"><span>LastName</span>
+          <app-filter-dropdown (sort)="sort($event)" button_id="last_name" class="ms-auto"></app-filter-dropdown>
+        </div>
+      </th>
+      <th scope="col" class="">
+        <div class="d-flex"><span>UserType</span>
+          <app-filter-dropdown (sort)="sort($event)" button_id="type" class="ms-auto"></app-filter-dropdown>
+        </div>
+      </th>
+      <th scope="col" class="">
+        <div class="d-flex"><span>Nationality</span>
+          <app-filter-dropdown (sort)="sort($event)" button_id="nationality" class="ms-auto"></app-filter-dropdown>
+        </div>
+      </th>
+      <th scope="col" class="">
+        <div class="d-flex"><span>Birthdate</span>
+          <app-filter-dropdown (sort)="sort($event)" button_id="birthdate" class="ms-auto"></app-filter-dropdown>
+        </div>
+      </th>
+      <th scope="col" class="">
+        <div class="d-flex"><span>Gender</span>
+          <app-filter-dropdown (sort)="sort($event)" button_id="gender" class="ms-auto"></app-filter-dropdown>
+        </div>
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let user of users()">
+      <th scope="row">{{ user.id }}</th>
+      <td>{{ user.email }}</td>
+      <td>{{ user.first_name }}</td>
+      <td>{{ user.last_name }}</td>
+      <td>{{ user.type }}</td>
+      <td>{{ user.nationality }}</td>
+      <td>{{ user.birthdate | date }}</td>
+      <td>{{ user.gender === 'male' ? 'M' : user.gender === 'female' ? 'F' : 'NA' }}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>

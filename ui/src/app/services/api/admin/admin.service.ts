@@ -35,4 +35,8 @@ export class AdminService {
     return this.http.get(this.api_url + '/admin/validate', await this.configService.authHeader(true))
   }
 
+  async get_students() {
+    return this.http.get(this.api_url + '/admin/students', await this.configService.authHeader(true))
+  }
+
 }

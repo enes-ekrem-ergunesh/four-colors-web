@@ -27,8 +27,9 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/login/login.page').then(m => m.LoginPage)
   },
   {
-    path: 'register',
-    loadComponent: () => import('./pages/register/register.page').then(m => m.RegisterPage)
+    path: 'my',
+    loadComponent: () => import('./pages/my/my.page').then( m => m.MyPage),
+    canActivate: [userAuthGuard]
   },
   {
     path: 'admin',
@@ -46,12 +47,21 @@ export const routes: Routes = [
     canActivate: [adminNoAuthGuard]
   },
   {
-    path: 'my',
-    loadComponent: () => import('./pages/my/my.page').then( m => m.MyPage),
-    canActivate: [userAuthGuard]
+    path: 'admin-students',
+    loadComponent: () => import('./admin/pages/admin-students/admin-students.page').then( m => m.AdminStudentsPage),
+    canActivate: [adminAuthGuard]
+  },
+  {
+    path: 'admin-teachers',
+    loadComponent: () => import('./admin/pages/admin-teachers/admin-teachers.page').then( m => m.AdminTeachersPage),
+    canActivate: [adminAuthGuard]
   },
   {
     path: '**',
     loadComponent: () => import('./pages/page-not-found/page-not-found.page').then(m => m.PageNotFoundPage)
+  },
+  {
+    path: 'register',
+    loadComponent: () => import('./pages/register/register.page').then(m => m.RegisterPage)
   },
 ];
