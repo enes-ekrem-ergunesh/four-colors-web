@@ -66,3 +66,14 @@ class Teachers(Resource):
         user_manager.get_all_teachers()
         return user_manager.users
 
+@ns.route('/user/<int:user_id>')
+class UserDetail(Resource):
+    @ns.doc('get_user')
+    @ns.marshal_with(user_model)
+    def get(self, user_id):
+        """Get user by ID"""
+        block_non_admin()
+        user = User(user_id=user_id)
+        if not user:
+            ns.abort(404, "User not found")
+        return user
