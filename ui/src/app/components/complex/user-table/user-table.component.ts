@@ -2,6 +2,7 @@ import {Component, input, OnInit} from '@angular/core';
 import {User} from "../../../interfaces/api/user";
 import {DatePipe, NgForOf} from "@angular/common";
 import {FilterDropdownComponent} from "./filter-dropdown/filter-dropdown.component";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-user-table',
@@ -16,7 +17,9 @@ import {FilterDropdownComponent} from "./filter-dropdown/filter-dropdown.compone
 export class UserTableComponent  implements OnInit {
   users = input<User[]>([]);
 
-  constructor() { }
+  constructor(
+    private router: Router
+  ) { }
 
   ngOnInit() {
     return
@@ -39,6 +42,11 @@ export class UserTableComponent  implements OnInit {
       if (valueA < valueB) return -1 * direction;
       return 0;
     })
+  }
+
+  async openUser(user: User) {
+    console.log(user)
+    await this.router.navigate(['/admin-user-details', user.id])
   }
 
 }

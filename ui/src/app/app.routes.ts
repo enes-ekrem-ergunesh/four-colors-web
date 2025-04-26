@@ -1,5 +1,4 @@
 import {Routes} from '@angular/router';
-import {PageNotFoundPage} from "./pages/page-not-found/page-not-found.page";
 import {adminAuthGuard} from "./admin/guards/admin-auth-guard/admin-auth.guard";
 import {adminNoAuthGuard} from "./admin/guards/admin-no-auth-guard/admin-no-auth.guard";
 import {userAuthGuard} from "./guards/user-auth-guard/user-auth.guard";
@@ -54,6 +53,11 @@ export const routes: Routes = [
   {
     path: 'admin-teachers',
     loadComponent: () => import('./admin/pages/admin-teachers/admin-teachers.page').then( m => m.AdminTeachersPage),
+    canActivate: [adminAuthGuard]
+  },
+  {
+    path: 'admin-user-details/:userId',
+    loadComponent: () => import('./admin/pages/admin-user-details/admin-user-details.page').then( m => m.AdminUserDetailsPage),
     canActivate: [adminAuthGuard]
   },
   {

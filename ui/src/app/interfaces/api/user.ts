@@ -6,5 +6,5 @@ export interface User {
   nationality: string;
   birthdate: string;
   gender: string;
-  type: string;
+  type: string | null;
 }

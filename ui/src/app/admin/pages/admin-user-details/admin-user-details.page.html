@@ -1,0 +1,12 @@
+<app-navbar [navs]="navs" [logout]="true" [is_admin_page]="true"></app-navbar>
+<div *ngIf="user.type === null else NotAdmin">
+  <app-admin-admin-details></app-admin-admin-details>
+</div>
+<ng-template #NotAdmin>
+  <div *ngIf="user.type === 'student' else Teacher">
+    <app-admin-student-details></app-admin-student-details>
+  </div>
+  <ng-template #Teacher>
+    <app-admin-teacher-details></app-admin-teacher-details>
+  </ng-template>
+</ng-template>
