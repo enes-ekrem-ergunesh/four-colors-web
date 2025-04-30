@@ -1,0 +1,138 @@
+<form id="bs-new-student-form" [formGroup]="newStudentForm" (ngSubmit)="onSubmit()" class="needs-validation"
+      autocomplete="off" novalidate>
+  <input class="fakes" tabindex="-1" type="text" name="email">
+  <input class="fakes" tabindex="-1" type="password" name="pass">
+  <div class="container mt-3">
+    <div class="row">
+      <div [class]="input_col_class">
+        <div class="form-floating mb-3">
+          <input
+            class="form-control"
+            id="email-bs-input"
+            placeholder="Enter email here"
+            formControlName="email"
+            type="email"
+            autocomplete="off"
+            required
+          >
+          <label for="email-bs-input">Email*</label>
+          <div class="invalid-feedback">
+            {{ get_error('email') }}
+          </div>
+        </div>
+      </div>
+      <div [class]="input_col_class">
+        <div class="form-floating mb-3">
+          <input
+            class="form-control"
+
+            id="password-bs-input"
+            placeholder="Enter password here"
+            formControlName="password"
+            [type]="passwordInputType"
+            minlength="8"
+            pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}"
+            autocomplete="off"
+            required
+          >
+          <label for="password-bs-input">Password*</label>
+          <div class="invalid-feedback">
+            {{ get_error('password') }}
+          </div>
+          <button
+            id="bs-show-hide-password-button"
+            class="show-hide-password-button bs-show-hide-password-button"
+            slot="end"
+            aria-label="Show/hide"
+            (click)="showHidePassword()"
+            [style]="showHidePasswordButtonStyle()"
+            type="button"
+          >
+            <ion-icon slot="icon-only" [name]="showHidePasswordIcon" aria-hidden="true"></ion-icon>
+          </button>
+        </div>
+      </div>
+      <div [class]="input_col_class">
+        <div class="form-floating mb-3">
+          <input
+            class="form-control"
+
+            id="first-name-bs-input"
+            placeholder="Enter first name here"
+            formControlName="first_name"
+            type="text"
+            required
+          >
+          <label for="first-name-bs-input">First Name*</label>
+          <div class="invalid-feedback">
+            {{ get_error('first_name') }}
+          </div>
+        </div>
+      </div>
+      <div [class]="input_col_class">
+        <div class="form-floating mb-3">
+          <input
+            class="form-control"
+
+            id="last-name-bs-input"
+            placeholder="Enter last name here"
+            formControlName="last_name"
+            type="text"
+            required
+          >
+          <label for="last-name-bs-input">Last Name*</label>
+          <div class="invalid-feedback">
+            {{ get_error('last_name') }}
+          </div>
+        </div>
+      </div>
+      <div [class]="input_col_class">
+        <div class="form-floating mb-3">
+          <input
+            class="form-control"
+
+            id="birthdate-bs-input"
+            formControlName="birthdate"
+            type="date"
+          >
+          <label for="birthdate-bs-input">Birthdate</label>
+          <div class="invalid-feedback">
+            {{ get_error('birthdate') }}
+          </div>
+        </div>
+      </div>
+      <div [class]="input_col_class">
+        <div class="form-floating mb-3">
+          <select id="nationality-bs-select" class="form-select" aria-label="Default select example"
+                  formControlName="nationality">
+            <option value="1">Select</option>
+            <option *ngFor="let c of countries" [value]="c.id">{{ c.name }}
+            </option>
+          </select>
+          <label for="nationality-bs-select">Nationality</label>
+          <div class="invalid-feedback">
+            {{ get_error('nationality') }}
+          </div>
+        </div>
+      </div>
+      <div [class]="input_col_class">
+        <div class="form-floating mb-3">
+          <select id="gender-bs-select" class="form-select" aria-label="Default select example"
+                  formControlName="gender">
+            <option selected value="select">Select</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+          <label for="gender-bs-select">Gender</label>
+          <div class="invalid-feedback">
+            {{ get_error('gender') }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <button id="bs-submit-button" type="submit" class="btn btn-primary w-100">Sign in</button>
+    </div>
+  </div>
+
+</form>

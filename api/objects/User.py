@@ -70,9 +70,12 @@ class User:
             User.dao = UserDAO()
         if User.user_details_dao is None:
             User.user_details_dao = UserDetailsDAO()
-        existing_user = User(email=form_data['email'])
-        if existing_user.id:
-            raise ValueError("User already exists")
+        try:
+            existing_user = User(email=form_data['email'])
+            if existing_user.id:
+                raise ValueError("User already exists")
+        except ValueError:
+            pass
         user = {
             'email': form_data['email'],
             'first_name': form_data['first_name'],

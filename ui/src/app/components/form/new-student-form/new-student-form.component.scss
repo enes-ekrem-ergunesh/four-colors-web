@@ -1,0 +1,21 @@
+.bs-show-hide-password-button {
+  //top: 50%;
+  //transform: translateY(-50%);
+  top: 5px;
+  background: none;
+  right: 0.3rem;
+  padding: 0.7rem !important;
+  padding-top: 1rem !important;
+}
+
+.show-hide-password-button {
+  position: absolute;
+  right: 0.9rem;
+  z-index: 1000;
+}
+
+.fakes {
+  height: 0;
+  position: absolute;
+  left: -268px;
+}

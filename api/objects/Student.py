@@ -30,7 +30,10 @@ class Student(User):
 
     @classmethod
     def register(cls, form_data):
+        if Student.dao is None:
+            Student.dao = StudentDAO()
         user_id = User.register(form_data)
         Student.dao.create({'id': user_id})
+        return user_id
 
 

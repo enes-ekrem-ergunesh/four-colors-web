@@ -1,6 +1,5 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {FormGroup} from "@angular/forms";
-import {StorageService} from "../../storage/storage.service";
 import {environment} from "../../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {ConfigService} from "../../config/config.service";
@@ -14,10 +13,10 @@ export class AuthService {
   api_url = environment.api_url;
 
   constructor(
-    private storageService: StorageService,
     private http: HttpClient,
     private configService: ConfigService,
-  ) { }
+  ) {
+  }
 
   /* Login & Register */
   getFormValidationError(control: string, formGroup: FormGroup) {
@@ -38,9 +37,40 @@ export class AuthService {
       case 'password':
         if (error === 'required') {
           return 'Password is required'
+        } else if (error === 'minlength') {
+          return 'Password must be at least 8 characters long'
+        } else if (error === 'pattern') {
+          let password = formGroup.get('password')?.value
+          if (!/[a-z]/.test(password)) {
+            return 'Password must contain at least one lowercase letter'
+          } else if (!/[A-Z]/.test(password)) {
+            return 'Password must contain at least one uppercase letter'
+          } else if (!/\d/.test(password)) {
+            return 'Password must contain at least one number'
+          } else {
+            return 'Password must contain at least one special character'
+          }
         } else {
           return 'Password is invalid'
         }
+      case 'first_name':
+        if (error === 'required') {
+          return 'First name is required'
+        } else {
+          return 'First name is invalid'
+        }
+      case 'last_name':
+        if (error === 'required') {
+          return 'Last name is required'
+        } else {
+          return 'Last name is invalid'
+        }
+      case 'nationality':
+        return 'Nationality is invalid'
+      case 'birthdate':
+        return 'Birthdate is invalid'
+      case 'gender':
+        return 'Gender is invalid'
       default:
         return 'Invalid input'
     }
@@ -70,7 +100,7 @@ export class AuthService {
       )
   }
 
-  async logout(){
+  async logout() {
     return this.http.post(this.api_url + '/auth/logout', {}, await this.configService.authHeader())
   }
 

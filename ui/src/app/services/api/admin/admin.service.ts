@@ -4,6 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../../environments/environment";
 import {catchError} from "rxjs";
 import {ConfigService} from "../../config/config.service";
+import {NewUser} from "../../../interfaces/api/new-user";
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +38,10 @@ export class AdminService {
 
   async get_students() {
     return this.http.get(this.api_url + '/admin/students', await this.configService.authHeader(true))
+  }
+
+  async new_student(new_student: NewUser) {
+    return this.http.post(this.api_url + '/admin/students', new_student, await this.configService.authHeader(true))
   }
 
   async get_teachers() {

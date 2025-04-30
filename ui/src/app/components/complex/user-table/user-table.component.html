@@ -51,9 +51,9 @@
       <td>{{ user.first_name }}</td>
       <td>{{ user.last_name }}</td>
       <td class="d-none">{{ user.type }}</td>
-      <td>{{ user.nationality }}</td>
+      <td>{{ user.nationality === null ? '-' : user.nationality }}</td>
       <td>{{ user.birthdate | date }}</td>
-      <td>{{ user.gender === 'male' ? 'M' : user.gender === 'female' ? 'F' : 'NA' }}</td>
+      <td>{{ user.gender === 'male' ? 'M' : user.gender === 'female' ? 'F' : '-' }}</td>
     </tr>
     </tbody>
   </table>

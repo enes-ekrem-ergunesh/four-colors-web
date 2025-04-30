@@ -4,6 +4,7 @@ ALLOWED_ENDPOINTS = [
     'doc',
     'admin_admin_login',
     'auth_login',
+    'nationality_nationalities'
 ]
 
 AUTHORIZATIONS = {
