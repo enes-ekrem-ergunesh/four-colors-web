@@ -61,6 +61,10 @@ export const routes: Routes = [
     canActivate: [adminAuthGuard]
   },
   {
+    path: 'new-teacher',
+    loadComponent: () => import('./admin/pages/admin-teachers/new-teacher/new-teacher.page').then( m => m.NewTeacherPage)
+  },
+  {
     path: 'admin-user-details/:userId',
     loadComponent: () => import('./admin/pages/admin-user-details/admin-user-details.page').then( m => m.AdminUserDetailsPage),
     canActivate: [adminAuthGuard]

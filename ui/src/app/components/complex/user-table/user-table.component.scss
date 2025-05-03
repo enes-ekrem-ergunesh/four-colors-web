@@ -7,5 +7,5 @@ app-filter-dropdown {
 }
 
 .table-responsive{
-  height: calc(100vh - 67px);
+  height: calc(100vh - 67px - 39px); // 67px navbar, 39px new user button
 }

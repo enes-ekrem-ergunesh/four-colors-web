@@ -10,6 +10,7 @@ from namespaces.userNamespace import (user_model, new_user_model, get_user_objec
 
 from objects.User import User, UserManager
 from objects.Student import Student
+from objects.Teacher import Teacher
 from objects.Token import Token
 
 ns = Namespace('admin', description='Admin related operations')
@@ -26,7 +27,7 @@ def block_non_admin():
         print("403: Access denied")
         ns.abort(403, "Access denied")
 
-def new_student_validate_payload(payload):
+def new_user_validate_payload(payload):
     # Required fields
     if 'email' not in payload:
         ns.abort(400, "Email is required")
@@ -117,10 +118,10 @@ class Students(Resource):
     @ns.expect(new_user_model)
     @ns.marshal_with(user_model)
     def post(self):
-        """Create new student"""
+        """Create a new student"""
         block_non_admin()
         payload = ns.payload
-        new_student_validate_payload(payload)
+        new_user_validate_payload(payload)
         new_student_id = Student.register(payload)
         user = User(user_id=new_student_id)
         return user
@@ -136,6 +137,18 @@ class Teachers(Resource):
         user_manager = UserManager()
         user_manager.get_all_teachers()
         return user_manager.users
+
+    @ns.doc('new_teacher')
+    @ns.expect(new_user_model)
+    @ns.marshal_with(user_model)
+    def post(self):
+        """Create a new teacher"""
+        block_non_admin()
+        payload = ns.payload
+        new_user_validate_payload(payload)
+        new_teacher_id = Teacher.register(payload)
+        user = User(user_id=new_teacher_id)
+        return user
 
 
 @ns.route('/user/<int:user_id>')

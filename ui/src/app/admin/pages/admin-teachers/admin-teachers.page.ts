@@ -9,13 +9,14 @@ import {User} from "../../../interfaces/api/user";
 import {AdminService} from "../../../services/api/admin/admin.service";
 import {ConfigService} from "../../../services/config/config.service";
 import {catchError} from "rxjs";
+import {RouterLink, RouterLinkActive} from "@angular/router";
 
 @Component({
   selector: 'app-admin-teachers',
   templateUrl: './admin-teachers.page.html',
   styleUrls: ['./admin-teachers.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, NavbarComponent, UserTableComponent]
+  imports: [CommonModule, FormsModule, NavbarComponent, UserTableComponent, RouterLink, RouterLinkActive]
 })
 export class AdminTeachersPage implements OnInit {
   navs!: Nav[]

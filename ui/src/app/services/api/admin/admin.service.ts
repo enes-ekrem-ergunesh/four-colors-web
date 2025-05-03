@@ -48,6 +48,10 @@ export class AdminService {
     return this.http.get(this.api_url + '/admin/teachers', await this.configService.authHeader(true))
   }
 
+  async new_teacher(new_teacher: NewUser) {
+    return this.http.post(this.api_url + '/admin/teachers', new_teacher, await this.configService.authHeader(true))
+  }
+
   async get_user_by_id(user_Id: number){
     return this.http.get(this.api_url + '/admin/user/' + user_Id, await this.configService.authHeader(true))
   }

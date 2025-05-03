@@ -1,29 +1,26 @@
 import {Component, input, OnInit, output} from '@angular/core';
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
-import {AuthService} from "../../../services/api/auth/auth.service";
-import {IonIcon} from "@ionic/angular/standalone";
-import {addIcons} from "ionicons";
-import {eye, eyeOff} from "ionicons/icons";
+import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Country} from "../../../interfaces/api/country";
+import {AuthService} from "../../../services/api/auth/auth.service";
 import {NationalityService} from "../../../services/api/nationality/nationality.service";
 import {ConfigService} from "../../../services/config/config.service";
+import {addIcons} from "ionicons";
+import {eye, eyeOff} from "ionicons/icons";
 import {catchError} from "rxjs";
-import {NgForOf, NgIf} from "@angular/common";
+import {IonIcon} from "@ionic/angular/standalone";
+import {NgForOf} from "@angular/common";
 
 @Component({
-  selector: 'app-new-student-form',
-  templateUrl: './new-student-form.component.html',
-  styleUrls: ['./new-student-form.component.scss'],
+  selector: 'app-new-user-form',
+  templateUrl: './new-user-form.component.html',
+  styleUrls: ['./new-user-form.component.scss'],
   imports: [
-    FormsModule,
     IonIcon,
-    ReactiveFormsModule,
     NgForOf,
-    NgIf
-  ],
-  standalone: true
+    ReactiveFormsModule
+  ]
 })
-export class NewStudentFormComponent  implements OnInit {
+export class NewUserFormComponent  implements OnInit {
   is_admin = input(false)
   formSubmission = output<FormGroup>();
 
@@ -51,7 +48,7 @@ export class NewStudentFormComponent  implements OnInit {
     Validators.maxLength(255)
   ]
 
-  newStudentForm = new FormGroup({
+  newUserForm = new FormGroup({
     email: new FormControl('', this.emailValidators),
     password: new FormControl('', this.passwordValidators),
     first_name: new FormControl('', this.maxLengthRequired),
@@ -92,17 +89,17 @@ export class NewStudentFormComponent  implements OnInit {
   }
 
   onSubmit() {
-    if (this.newStudentForm.invalid) {
+    if (this.newUserForm.invalid) {
       this.bootstrapFormShowValidation()
     }
     else {
-      console.log(this.newStudentForm.value)
-      this.formSubmission.emit(this.newStudentForm)
+      console.log(this.newUserForm.value)
+      this.formSubmission.emit(this.newUserForm)
     }
   }
 
   get_error(control_name: string) {
-    return this.authService.getFormValidationError(control_name, this.newStudentForm)
+    return this.authService.getFormValidationError(control_name, this.newUserForm)
   }
 
   showHidePassword() {
@@ -115,19 +112,19 @@ export class NewStudentFormComponent  implements OnInit {
     let element = document.getElementsByClassName('show-hide-password-button')[0] as HTMLElement
     if (element) {
       setTimeout(() => {
-        element.style['display'] = this.newStudentForm.get('password')?.value ? 'block' : 'none'
+        element.style['display'] = this.newUserForm.get('password')?.value ? 'block' : 'none'
         element.style['marginBottom'] = this.authService.isPasswordErrorDisplayed() ? '19px' : '0'
       }, 20)
     }
 
-    return "display: " + (this.newStudentForm.get('password')?.value ? 'block' : 'none') +
+    return "display: " + (this.newUserForm.get('password')?.value ? 'block' : 'none') +
       "; margin-bottom: " + (this.authService.isPasswordErrorDisplayed() ? '15px' : '0')
   }
 
   bootstrapFormShowValidation() {
     if (this.validated) return
     this.validated = true;
-    const bsForm = document.getElementById('bs-new-student-form')
+    const bsForm = document.getElementById('bs-new-user-form')
     bsForm?.classList.add('was-validated')
 
     // add a gap on the right of the show-hide-password button
