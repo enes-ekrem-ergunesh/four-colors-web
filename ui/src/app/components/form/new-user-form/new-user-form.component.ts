@@ -58,7 +58,6 @@ export class NewUserFormComponent  implements OnInit {
     gender: new FormControl('select'),
   })
 
-
   constructor(
     private authService: AuthService,
     private nationalityService: NationalityService,
@@ -99,7 +98,7 @@ export class NewUserFormComponent  implements OnInit {
   }
 
   get_error(control_name: string) {
-    return this.authService.getFormValidationError(control_name, this.newUserForm)
+    return this.authService.getFormValidationError(control_name, this.newUserForm, 'new-user')
   }
 
   showHidePassword() {

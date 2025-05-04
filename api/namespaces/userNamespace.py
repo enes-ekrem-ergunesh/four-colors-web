@@ -64,7 +64,7 @@ def get_user_object(email=None, user_id=None):
             exception_handler(ve)
     elif user_id:
         try:
-            user = User(email=ns.payload['email'])
+            user = User(user_id=ns.payload['id'])
         except ValueError as ve:
             exception_handler(ve)
     else:

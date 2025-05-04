@@ -9,6 +9,7 @@ import {ConfigService} from "../../../../services/config/config.service";
 import {NewUser} from "../../../../interfaces/api/new-user";
 import {catchError} from "rxjs";
 import {NewUserFormComponent} from "../../../../components/form/new-user-form/new-user-form.component";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-new-student',
@@ -24,6 +25,7 @@ export class NewStudentPage implements OnInit {
     common_ts: CommonTsService,
     private adminService: AdminService,
     private configService: ConfigService,
+    private router: Router,
   ) {
     this.navs = common_ts.admin_navs
   }
@@ -51,6 +53,8 @@ export class NewStudentPage implements OnInit {
       )
       .subscribe(res => {
         console.log(res)
+        this.configService.successHandler("Student created successfully")
+        this.router.navigate(['/admin-students'])
       })
   }
 

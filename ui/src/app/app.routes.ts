@@ -70,6 +70,20 @@ export const routes: Routes = [
     canActivate: [adminAuthGuard]
   },
   {
+    path: 'admin-courses',
+    loadComponent: () => import('./admin/pages/admin-courses/admin-courses.page').then( m => m.AdminCoursesPage),
+    canActivate: [adminAuthGuard]
+  },
+  {
+    path: 'admin-course-details/:courseId',
+    loadComponent: () => import('./admin/pages/admin-courses/admin-course-details/admin-course-details.page').then( m => m.AdminCourseDetailsPage),
+    canActivate: [adminAuthGuard]
+  },
+  {
+    path: 'new-course',
+    loadComponent: () => import('./admin/pages/admin-courses/new-course/new-course.page').then( m => m.NewCoursePage)
+  },
+  {
     path: '**',
     loadComponent: () => import('./pages/page-not-found/page-not-found.page').then(m => m.PageNotFoundPage)
   },

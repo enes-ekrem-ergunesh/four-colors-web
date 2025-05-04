@@ -1,0 +1,15 @@
+<app-navbar [navs]="navs" [logout]="true" [is_admin_page]="true"></app-navbar>
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-6 col-xl-4 col-xxl-3">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <h2 class="mt-3">Add New Course</h2>
+          </div>
+        </div>
+      </div>
+      <app-new-course-form (formSubmission)="add_course($event)" [is_admin]="true"></app-new-course-form>
+    </div>
+  </div>
+</div>

@@ -21,6 +21,10 @@ export class ConfigService {
     return {headers: {Authorization: token}}
   }
 
+  public successHandler(message: string){
+    this.addAlert(message, 'success', 2000)
+  }
+
   public addAlert(message: string, type: string, timeout: number | null = null) {
     const alert: Alert = {
       message: message,

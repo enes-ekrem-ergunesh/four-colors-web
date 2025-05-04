@@ -1,7 +1,5 @@
 <form id="bs-new-user-form" [formGroup]="newUserForm" (ngSubmit)="onSubmit()" class="needs-validation"
-      autocomplete="off" novalidate>
-  <input class="fakes" tabindex="-1" type="text" name="email">
-  <input class="fakes" tabindex="-1" type="password" name="pass">
+       role="presentation" autocomplete="off" novalidate>
   <div class="container mt-3">
     <div class="row">
       <div [class]="input_col_class">
@@ -12,7 +10,7 @@
             placeholder="Enter email here"
             formControlName="email"
             type="email"
-            autocomplete="off"
+            autocomplete="email"
             required
           >
           <label for="email-bs-input">Email*</label>
@@ -32,7 +30,7 @@
             [type]="passwordInputType"
             minlength="8"
             pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}"
-            autocomplete="off"
+            autocomplete="new-password"
             required
           >
           <label for="password-bs-input">Password*</label>

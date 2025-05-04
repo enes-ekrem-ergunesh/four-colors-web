@@ -19,27 +19,57 @@ export class AuthService {
   }
 
   /* Login & Register */
-  getFormValidationError(control: string, formGroup: FormGroup) {
+  getFormValidationError(control: string, formGroup: FormGroup, form: string) {
     const errors = formGroup.get(control)?.errors
     if (!errors) {
       return null
     }
     const errors_array = errors as { [key: string]: any }
     const error = Object.keys(errors_array)[0]
+    let control_names : { [key: string]: any } = {};
+    switch (form) {
+      case 'login':
+        control_names = {
+          email: 'Email',
+          password: 'Password',
+          remember_me: 'Remember Me',
+        }
+        break
+      case 'new-user':
+        control_names = {
+          email: 'Email',
+          password: 'Password',
+          first_name: 'First name',
+          last_name: 'Last name',
+          nationality: 'Nationality',
+          birthdate: 'Birthdate',
+          gender: 'Gender',
+        }
+        break
+      case 'new-course':
+        control_names = {
+          name: 'Course name',
+          description: 'Course description',
+        }
+        break
+
+    }
+
+    if (error === 'required') {
+      if (control in control_names){
+        // @ts-ignore
+        return control_names[control] + ' is required'
+      }
+      else{
+        return 'Required input'
+      }
+    }
 
     switch (control) {
-      case 'email':
-        if (error === 'required') {
-          return 'Email is required'
-        } else {
-          return 'Email is invalid'
-        }
       case 'password':
-        if (error === 'required') {
-          return 'Password is required'
-        } else if (error === 'minlength') {
+        if (error === 'minlength') {
           return 'Password must be at least 8 characters long'
-        } else if (error === 'pattern') {
+        } else {
           let password = formGroup.get('password')?.value
           if (!/[a-z]/.test(password)) {
             return 'Password must contain at least one lowercase letter'
@@ -50,31 +80,14 @@ export class AuthService {
           } else {
             return 'Password must contain at least one special character'
           }
-        } else {
-          return 'Password is invalid'
         }
-      case 'first_name':
-        if (error === 'required') {
-          return 'First name is required'
-        } else {
-          return 'First name is invalid'
-        }
-      case 'last_name':
-        if (error === 'required') {
-          return 'Last name is required'
-        } else {
-          return 'Last name is invalid'
-        }
-      case 'nationality':
-        return 'Nationality is invalid'
-      case 'birthdate':
-        return 'Birthdate is invalid'
-      case 'gender':
-        return 'Gender is invalid'
       default:
+        if (control in control_names) {
+          // @ts-ignore
+          return control_names[control] + ' is invalid'
+        }
         return 'Invalid input'
     }
-
   }
 
   isPasswordErrorDisplayed() {

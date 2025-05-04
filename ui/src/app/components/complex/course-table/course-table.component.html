@@ -1,0 +1,42 @@
+<div class="table-responsive">
+  <table class="table table-hover">
+    <thead>
+    <tr>
+      <th scope="col" class="">
+        <div class="d-flex"><span>ID</span>
+          <app-filter-dropdown (sort)="sort($event)" button_id="id" class="ms-auto"></app-filter-dropdown>
+        </div>
+      </th>
+      <th scope="col" class="">
+        <div class="d-flex"><span>Name</span>
+          <app-filter-dropdown (sort)="sort($event)" button_id="name" class="ms-auto"></app-filter-dropdown>
+        </div>
+      </th>
+      <th scope="col" class="">
+        <div class="d-flex"><span>Description</span>
+          <app-filter-dropdown (sort)="sort($event)" button_id="description" class="ms-auto"></app-filter-dropdown>
+        </div>
+      </th>
+      <th scope="col" class="">
+        <div class="d-flex"><span>Created At</span>
+          <app-filter-dropdown (sort)="sort($event)" button_id="created_at" class="ms-auto"></app-filter-dropdown>
+        </div>
+      </th>
+      <th scope="col" class="">
+        <div class="d-flex"><span>Deleted</span>
+          <app-filter-dropdown (sort)="sort($event)" button_id="deleted_at" class="ms-auto"></app-filter-dropdown>
+        </div>
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let course of courses()" (click)="openCourse(course)">
+      <th scope="row">{{ course.id }}</th>
+      <td>{{ course.name }}</td>
+      <td>{{ course.description }}</td>
+      <td>{{ course.created_at | date }}</td>
+      <td>{{ course.deleted_at === null ? 'False' : 'True' }}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>

@@ -56,7 +56,7 @@ export class LoginFormComponent  implements OnInit {
   }
 
   get_error(control_name: string) {
-    return this.authService.getFormValidationError(control_name, this.loginForm)
+    return this.authService.getFormValidationError(control_name, this.loginForm, 'login')
   }
 
   showHidePassword() {

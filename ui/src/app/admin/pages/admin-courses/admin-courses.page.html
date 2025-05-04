@@ -1,0 +1,14 @@
+<app-navbar [navs]="navs" [logout]="true" [is_admin_page]="true"></app-navbar>
+<div class="mx-0 mx-md-3">
+  <div class="d-flex">
+    <a
+      routerLink="/new-course"
+      routerLinkActive="active"
+      class="btn btn-outline-primary ms-auto my-1 me-1 btn-sm"
+      role="button"
+    >
+      New Course
+    </a>
+  </div>
+  <app-course-table [courses]="courses"></app-course-table>
+</div>
