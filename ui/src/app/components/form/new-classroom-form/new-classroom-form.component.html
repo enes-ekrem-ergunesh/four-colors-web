@@ -1,0 +1,80 @@
+<form id="bs-new-classroom-form" [formGroup]="newClassroomForm" (ngSubmit)="onSubmit()" class="needs-validation"
+      autocomplete="off" novalidate>
+  <div class="container mt-3">
+    <div class="row">
+      <div [class]="input_col_class">
+        <div class="form-floating mb-3">
+          <select id="classroom-course-id-bs-input" class="form-select" aria-label="Default select example"
+                  formControlName="course_id">
+            <option selected value="0">Select</option>
+            <option *ngFor="let c of courses" [value]="c.id">{{ c.name }}
+            </option>
+          </select>
+          <label for="classroom-course-id-bs-input">Course ID</label>
+          <div class="invalid-feedback">
+            {{ get_error('course_id') }}
+          </div>
+        </div>
+      </div>
+      <div [class]="input_col_class">
+        <div class="form-floating mb-3">
+          <input
+            class="form-control"
+            id="classroom-name-bs-input"
+            placeholder="Enter classroom name here"
+            formControlName="name"
+            type="text"
+            autocomplete="off"
+            required
+          >
+          <label for="classroom-name-bs-input">Name</label>
+          <div class="invalid-feedback">
+            {{ get_error('name') }}
+          </div>
+        </div>
+      </div>
+      <div [class]="input_col_class">
+        <div class="form-floating mb-3">
+          <input
+            class="form-control"
+            id="classroom-number-of-sessions-bs-input"
+            placeholder="Enter number of sessions here"
+            formControlName="number_of_sessions"
+            type="number"
+            min="1"
+            step="1"
+            autocomplete="off"
+            required
+          >
+          <label for="classroom-number-of-sessions-bs-input">Sessions</label>
+          <div class="invalid-feedback">
+            {{ get_error('number_of_sessions') }}
+          </div>
+        </div>
+      </div>
+      <div [class]="input_col_class">
+        <div class="form-floating mb-3">
+          <input
+            class="form-control"
+            id="classroom-expected-session-duration-bs-input"
+            placeholder="Enter expected session duration here"
+            formControlName="expected_session_duration"
+            type="number"
+            min="1"
+            step="1"
+            autocomplete="off"
+            required
+          >
+          <label for="classroom-expected-session-duration-bs-input">Duration</label>
+          <div class="invalid-feedback">
+            {{ get_error('expected_session_duration') }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <button id="bs-submit-button" type="submit" class="btn btn-primary w-100">Submit</button>
+    </div>
+  </div>
+
+</form>

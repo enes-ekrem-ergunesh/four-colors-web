@@ -22,6 +22,10 @@ export class CommonTsService {
       name: 'Courses',
       route: '/admin-courses',
     },
+    {
+      name: 'Classrooms',
+      route: '/admin-classrooms',
+    },
   ]
 
   constructor() { }

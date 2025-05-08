@@ -15,6 +15,7 @@ export class AdminCourseDetailsPage implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    return
   }
 
 }

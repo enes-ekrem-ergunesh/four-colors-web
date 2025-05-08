@@ -45,5 +45,4 @@ export class CourseTableComponent {
     await this.router.navigate(['/admin-course-details', course.id])
   }
 
-
 }

@@ -1,0 +1,25 @@
+<div class="table-responsive">
+  <table class="table table-hover">
+    <thead>
+    <tr>
+      <th scope="col" class="" *ngFor="let header of headers">
+        <div class="d-flex"><span>{{ header.title }}</span>
+          <app-filter-dropdown (sort)="sort($event)" [button_id]="header.button_id"
+                               class="ms-auto"></app-filter-dropdown>
+        </div>
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let classroom of classrooms()" (click)="openClassroom(classroom)">
+      <th scope="row">{{ classroom.id }}</th>
+      <td>{{ getCourseById(classroom.course_id)?.name }}</td>
+      <td>{{ classroom.name }}</td>
+      <td>{{ classroom.number_of_sessions }}</td>
+      <td>{{ classroom.expected_session_duration }}</td>
+      <td>{{ classroom.created_at | date }}</td>
+      <td>{{ classroom.deleted_at === null ? 'False' : 'True' }}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>

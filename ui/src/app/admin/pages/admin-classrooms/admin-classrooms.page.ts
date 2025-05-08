@@ -2,36 +2,36 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {Nav} from "../../../interfaces/ui/nav";
-import {Course} from "../../../interfaces/api/course";
-import {NavbarComponent} from "../../../components/complex/navbar/navbar.component";
 import {CommonTsService} from "../../../services/common-ts/common-ts.service";
 import {ConfigService} from "../../../services/config/config.service";
 import {catchError} from "rxjs";
-import {CourseService} from "../../../services/api/course/course.service";
+import {Classroom} from "../../../interfaces/api/classroom";
+import {ClassroomService} from "../../../services/api/classroom/classroom.service";
+import {NavbarComponent} from "../../../components/complex/navbar/navbar.component";
 import {RouterLink, RouterLinkActive} from "@angular/router";
-import {CourseTableComponent} from "../../../components/complex/course-table/course-table.component";
+import {ClassroomTableComponent} from "../../../components/complex/classroom-table/classroom-table.component";
 
 @Component({
-  selector: 'app-admin-courses',
-  templateUrl: './admin-courses.page.html',
-  styleUrls: ['./admin-courses.page.scss'],
+  selector: 'app-admin-classrooms',
+  templateUrl: './admin-classrooms.page.html',
+  styleUrls: ['./admin-classrooms.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, NavbarComponent, RouterLink, RouterLinkActive, CourseTableComponent]
+  imports: [CommonModule, FormsModule, NavbarComponent, RouterLink, RouterLinkActive, ClassroomTableComponent]
 })
-export class AdminCoursesPage implements OnInit {
+export class AdminClassroomsPage implements OnInit {
   navs!: Nav[]
-  courses: Course[] = [];
+  classrooms: Classroom[] = [];
 
   constructor(
     common_ts: CommonTsService,
-    private courseService: CourseService,
+    private classroomService: ClassroomService,
     private configService: ConfigService,
   ) {
     this.navs = common_ts.admin_navs
   }
 
   async ngOnInit() {
-    (await this.courseService.get_courses())
+    (await this.classroomService.get_classrooms())
       .pipe(
         catchError(error => {
           this.configService.errorHandler(error, true)
@@ -39,7 +39,7 @@ export class AdminCoursesPage implements OnInit {
         })
       )
       .subscribe((response) => {
-        this.courses = response as Course[];
+        this.classrooms = response as Classroom[];
       })
   }
 

@@ -84,6 +84,14 @@ export const routes: Routes = [
     loadComponent: () => import('./admin/pages/admin-courses/new-course/new-course.page').then( m => m.NewCoursePage)
   },
   {
+    path: 'admin-classrooms',
+    loadComponent: () => import('./admin/pages/admin-classrooms/admin-classrooms.page').then( m => m.AdminClassroomsPage)
+  },
+  {
+    path: 'new-classroom',
+    loadComponent: () => import('./admin/pages/admin-classrooms/new-classroom/new-classroom.page').then( m => m.NewClassroomPage)
+  },
+  {
     path: '**',
     loadComponent: () => import('./pages/page-not-found/page-not-found.page').then(m => m.PageNotFoundPage)
   },
