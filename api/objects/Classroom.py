@@ -58,6 +58,10 @@ class ClassroomManager:
         data = self.dao.get_all()
         self.load_data(data)
 
+    def get_classrooms_by_course_id(self, course_id):
+        data = self.dao.get_by_course_id(course_id)
+        self.load_data(data)
+
     def load_data(self, data):
         for record in data:
             classroom = Classroom(record=record)

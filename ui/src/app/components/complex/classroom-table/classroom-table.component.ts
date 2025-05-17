@@ -1,7 +1,7 @@
 import {Component, input, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {Classroom} from "../../../interfaces/api/classroom";
-import {DatePipe, NgForOf} from "@angular/common";
+import {DatePipe, NgForOf, NgIf} from "@angular/common";
 import {FilterDropdownComponent} from "../user-table/filter-dropdown/filter-dropdown.component";
 import {Course} from "../../../interfaces/api/course";
 import {catchError} from "rxjs";
@@ -15,7 +15,8 @@ import {ConfigService} from "../../../services/config/config.service";
   imports: [
     DatePipe,
     FilterDropdownComponent,
-    NgForOf
+    NgForOf,
+    NgIf
   ]
 })
 export class ClassroomTableComponent implements OnInit{

@@ -33,12 +33,12 @@ def get_course_object(course_id=None, name=None):
         return
     if name:
         try:
-            course = Course(name=ns.payload['name'])
+            course = Course(name=name)
         except ValueError as ve:
             exception_handler(ve)
     elif course_id:
         try:
-            course = Course(course_id=ns.payload['id'])
+            course = Course(course_id=course_id)
         except ValueError as ve:
             exception_handler(ve)
     else:
@@ -70,3 +70,14 @@ class CourseList(Resource):
         course = Course(course_id=course_id)
         return course
 
+@ns.route('/<int:course_id>')
+class CourseSingle(Resource):
+    @ns.doc('get_course')
+    @ns.marshal_with(course_model)
+    def get(self, course_id):
+        """Get a course by ID"""
+        course = get_course_object(course_id=course_id)
+        if not course:
+            ns.abort(404, "Course not found")
+            return None
+        return course

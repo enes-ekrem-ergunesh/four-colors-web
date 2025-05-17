@@ -1,21 +1,92 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import {ActivatedRoute, RouterLink} from "@angular/router";
+import {Course} from "../../../../interfaces/api/course";
+import {CourseService} from "../../../../services/api/course/course.service";
+import {catchError} from "rxjs";
+import {ConfigService} from "../../../../services/config/config.service";
+import {Nav} from "../../../../interfaces/ui/nav";
+import {CommonTsService} from "../../../../services/common-ts/common-ts.service";
+import {NavbarComponent} from "../../../../components/complex/navbar/navbar.component";
+import {ClassroomTableComponent} from "../../../../components/complex/classroom-table/classroom-table.component";
+import {Classroom} from "../../../../interfaces/api/classroom";
+import {ClassroomService} from "../../../../services/api/classroom/classroom.service";
+import {User} from "../../../../interfaces/api/user";
+import {TeacherService} from "../../../../services/api/teacher/teacher.service";
+import {UserTableComponent} from "../../../../components/complex/user-table/user-table.component";
 
 @Component({
   selector: 'app-admin-course-details',
   templateUrl: './admin-course-details.page.html',
   styleUrls: ['./admin-course-details.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: [CommonModule, FormsModule, NavbarComponent, RouterLink, ClassroomTableComponent, UserTableComponent]
 })
 export class AdminCourseDetailsPage implements OnInit {
+  navs!: Nav[]
+  courseId!: number;
+  course: Course = {} as Course;
+  courseClassrooms: Classroom[] = [];
+  courseTeachers: User[] = []
 
-  constructor() { }
-
-  ngOnInit() {
-    return
+  constructor(
+    common_ts: CommonTsService,
+    private readonly route: ActivatedRoute,
+    private courseService: CourseService,
+    private classroomService: ClassroomService,
+    private teacherService: TeacherService,
+    private configService: ConfigService,
+  ) {
+    this.navs = common_ts.admin_navs
+    this.courseId = Number(this.route.snapshot.paramMap.get('courseId'))
   }
+
+  async ngOnInit() {
+    await this.getCourseDetails()
+    await this.getCourseClassrooms()
+    await this.getCourseTeachers()
+  }
+
+  async getCourseDetails() {
+    (await this.courseService.get_course_by_id(this.courseId))
+      .pipe(
+        catchError(error => {
+          this.configService.errorHandler(error, true)
+          throw error
+        })
+      )
+      .subscribe(res => {
+        this.course = res as Course;
+        console.log(this.course);
+      })
+  }
+
+  async getCourseClassrooms(){
+    (await this.classroomService.get_classrooms_by_course_id(this.courseId))
+      .pipe(
+        catchError(error => {
+          this.configService.errorHandler(error, true)
+          throw error
+        })
+      )
+      .subscribe(res => {
+        this.courseClassrooms = res as Classroom[];
+      })
+  }
+
+  async getCourseTeachers(){
+    (await this.teacherService.get_teachers_by_course_id(this.courseId))
+      .pipe(
+        catchError(error => {
+          this.configService.errorHandler(error, true)
+          throw error
+        })
+      )
+      .subscribe(res => {
+        this.courseTeachers = res as User[];
+      })
+  }
+
 
 }

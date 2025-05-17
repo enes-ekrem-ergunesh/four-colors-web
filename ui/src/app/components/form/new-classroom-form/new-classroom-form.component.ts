@@ -41,7 +41,7 @@ export class NewClassroomFormComponent implements OnInit{
   newClassroomForm = new FormGroup({
     course_id: new FormControl('0', this.naturalNumberRequires),
     name: new FormControl('', this.maxLengthRequired),
-    number_of_sessions: new FormControl('', this.naturalNumberRequires),
+    number_of_sessions: new FormControl('15', this.naturalNumberRequires),
     expected_session_duration: new FormControl('40', this.naturalNumberRequires),
   })
 

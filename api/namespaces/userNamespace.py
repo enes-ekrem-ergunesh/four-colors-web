@@ -81,7 +81,6 @@ class UserSelf(Resource):
         user = User(user_id=request.user_id)
         return user
 
-
 @ns.route('/validate')
 class ValidateUser(Resource):
     @ns.doc('validate_user')

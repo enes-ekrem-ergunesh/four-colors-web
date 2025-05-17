@@ -22,4 +22,9 @@ export class CourseService {
   async new_course(course: NewCourse) {
     return this.http.post(this.api_url + '/course/', course, await this.configService.authHeader(true))
   }
+
+  async get_course_by_id(course_id: number){
+    return this.http.get(this.api_url + '/course/' + course_id, await this.configService.authHeader(true))
+  }
+
 }

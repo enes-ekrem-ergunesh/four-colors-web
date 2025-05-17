@@ -69,3 +69,12 @@ class ClassroomList(Resource):
         classroom = Classroom(classroom_id=classroom_id)
         return classroom
 
+@ns.route('/course/<int:course_id>')
+class CourseClassroomList(Resource):
+    @ns.doc('get_classrooms_by_course_id')
+    @ns.marshal_list_with(classroom_model)
+    def get(self, course_id):
+        """Get classrooms by course id"""
+        classroom_manager = ClassroomManager()
+        classroom_manager.get_classrooms_by_course_id(course_id)
+        return classroom_manager.classrooms

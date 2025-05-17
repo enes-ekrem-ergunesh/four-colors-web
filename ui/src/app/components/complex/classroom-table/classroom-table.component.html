@@ -10,7 +10,7 @@
       </th>
     </tr>
     </thead>
-    <tbody>
+    <tbody *ngIf="classrooms().length > 0">
     <tr *ngFor="let classroom of classrooms()" (click)="openClassroom(classroom)">
       <th scope="row">{{ classroom.id }}</th>
       <td>{{ getCourseById(classroom.course_id)?.name }}</td>
@@ -22,4 +22,8 @@
     </tr>
     </tbody>
   </table>
+  <div *ngIf="classrooms().length === 0" class="text-center">
+    <p>No data found</p>
+  </div>
 </div>
+

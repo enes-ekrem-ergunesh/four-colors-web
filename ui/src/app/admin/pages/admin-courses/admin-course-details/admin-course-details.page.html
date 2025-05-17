@@ -1,13 +1,31 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>admin-course-details</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-navbar [navs]="navs" [logout]="true" [is_admin_page]="true"></app-navbar>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">admin-course-details</ion-title>
-    </ion-toolbar>
-  </ion-header>
-</ion-content>
+<a routerLink="/admin-courses" style="text-decoration: auto">
+  <p>
+    <svg style="margin: -3px -4px 0 3px" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left-fill" viewBox="0 0 16 16">
+      <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/>
+    </svg>
+    Courses
+  </p>
+</a>
+
+<div class="container mt-3">
+  <div class="row">
+    <div class="col">
+      <h2>{{ course.name }}</h2>
+      <p class="fst-italic">{{ course.description }}</p>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col">
+      <h3>Classrooms</h3>
+      <app-classroom-table [classrooms]="courseClassrooms"></app-classroom-table>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col">
+      <h3>Teachers</h3>
+      <app-user-table [users]="courseTeachers"></app-user-table>
+    </div>
+  </div>
+</div>
