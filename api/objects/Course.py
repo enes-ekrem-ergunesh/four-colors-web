@@ -61,6 +61,10 @@ class CourseManager:
         data = self.dao.get_all()
         self.load_data(data)
 
+    def get_courses_by_teacher_id(self, teacher_id):
+        data = self.dao.get_all_by_teacher_id(teacher_id)
+        self.load_data(data)
+
     def load_data(self, data):
         for record in data:
             course = Course(record=record)

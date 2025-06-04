@@ -62,7 +62,6 @@ export class AdminUserDetailsPage implements OnInit {
       )
       .subscribe(response => {
         this.user = response as User;
-        console.log(this.user)
       })
   }
 

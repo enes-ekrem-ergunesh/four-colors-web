@@ -81,3 +81,13 @@ class CourseSingle(Resource):
             ns.abort(404, "Course not found")
             return None
         return course
+
+@ns.route('/teacher/<int:teacher_id>')
+class CoursesByTeacher(Resource):
+    @ns.doc('get_courses_by_teacher')
+    @ns.marshal_list_with(course_model)
+    def get(self, teacher_id):
+        """Get courses by teacher ID"""
+        course_manager = CourseManager()
+        course_manager.get_courses_by_teacher_id(teacher_id)
+        return course_manager.courses

@@ -27,4 +27,8 @@ export class CourseService {
     return this.http.get(this.api_url + '/course/' + course_id, await this.configService.authHeader(true))
   }
 
+  async get_courses_by_teacher_id(teacher_id: number){
+    return this.http.get(this.api_url + '/course/teacher/' + teacher_id, await this.configService.authHeader(true))
+  }
+
 }

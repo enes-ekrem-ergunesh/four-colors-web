@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {environment} from "../../../../environments/environment";
-import {StorageService} from "../../storage/storage.service";
 import {HttpClient} from "@angular/common/http";
 import {ConfigService} from "../../config/config.service";
 
@@ -18,6 +17,14 @@ export class TeacherService {
 
   async get_teachers_by_course_id(course_id: number) {
     return this.http.get(this.api_url + '/teacher/course/' + course_id,
+      await this.configService.authHeader(true))
+  }
+
+  async assign_to_course(teacher_id: number, course_id: number) {
+    return this.http.post(this.api_url + '/teacher/course/', {
+        "teacher_id": teacher_id,
+        "course_id": course_id
+      },
       await this.configService.authHeader(true))
   }
 }

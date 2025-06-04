@@ -78,3 +78,25 @@ class CourseClassroomList(Resource):
         classroom_manager = ClassroomManager()
         classroom_manager.get_classrooms_by_course_id(course_id)
         return classroom_manager.classrooms
+
+@ns.route('/teacher/<int:teacher_id>')
+class TeacherClassroomList(Resource):
+    @ns.doc('get_classrooms_by_teacher_id')
+    @ns.marshal_list_with(classroom_model)
+    def get(self, teacher_id):
+        """Get classrooms by teacher id"""
+        classroom_manager = ClassroomManager()
+        classroom_manager.get_classrooms_by_teacher_id(teacher_id)
+        return classroom_manager.classrooms
+
+@ns.route('/teacher/available/<int:teacher_id>')
+class TeacherAvailableClassroomList(Resource):
+    @ns.doc('get_available_classrooms_by_teacher_id')
+    @ns.marshal_list_with(classroom_model)
+    def get(self, teacher_id):
+        """Get available classrooms by teacher id"""
+        classroom_manager = ClassroomManager()
+        classroom_manager.get_available_classrooms_by_teacher_id(teacher_id)
+        return classroom_manager.classrooms
+
+

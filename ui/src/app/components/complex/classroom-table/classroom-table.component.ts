@@ -48,8 +48,6 @@ export class ClassroomTableComponent implements OnInit{
       )
       .subscribe(res => {
         this.courses = res as Course[]
-        // log course with id 2
-        console.log(this.courses.find(course => course.id === 2))
       })
   }
 

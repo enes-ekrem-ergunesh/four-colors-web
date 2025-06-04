@@ -59,7 +59,15 @@ class ClassroomManager:
         self.load_data(data)
 
     def get_classrooms_by_course_id(self, course_id):
-        data = self.dao.get_by_course_id(course_id)
+        data = self.dao.get_all_by_course_id(course_id)
+        self.load_data(data)
+
+    def get_classrooms_by_teacher_id(self, teacher_id):
+        data = self.dao.get_all_by_teacher_id(teacher_id)
+        self.load_data(data)
+
+    def get_available_classrooms_by_teacher_id(self, teacher_id):
+        data = self.dao.get_teacher_available_classrooms(teacher_id)
         self.load_data(data)
 
     def load_data(self, data):
