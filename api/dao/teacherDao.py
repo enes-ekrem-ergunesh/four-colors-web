@@ -26,3 +26,13 @@ where course_id = %s
         query = "insert into teacher_classrooms (teacher_id, classroom_id) values (%s, %s);"
         params = (teacher_id, classroom_id)
         self.execute_update(query, params)
+
+    def unassign_teacher_from_course(self, teacher_id, course_id):
+        query = "delete from teacher_courses where teacher_id = %s and course_id = %s;"
+        params = (teacher_id, course_id)
+        self.execute_update(query, params)
+
+    def unassign_teacher_from_classroom(self, teacher_id, classroom_id):
+        query = "delete from teacher_classrooms where teacher_id = %s and classroom_id = %s;"
+        params = (teacher_id, classroom_id)
+        self.execute_update(query, params)

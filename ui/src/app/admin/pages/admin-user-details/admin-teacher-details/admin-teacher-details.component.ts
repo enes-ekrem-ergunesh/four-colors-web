@@ -53,6 +53,10 @@ export class AdminTeacherDetailsComponent implements OnInit {
     await this.getTeacherCourses();
     await this.getTeacherClassrooms();
     await this.get_available_courses();
+    await this.get_available_classrooms();
+    setTimeout(() => {
+      this.initPopovers();
+    }, 300)
   }
 
   async getUserDetails() {
@@ -102,14 +106,13 @@ export class AdminTeacherDetailsComponent implements OnInit {
           throw error
         })
       )
-      .subscribe(async res => {
+      .subscribe(res => {
         let courses = res as Course[];
         this.availableCourses = courses.filter(
           course => !this.teacherCourses.map(
             course => course.id
           ).includes(course.id)
         );
-        await this.get_available_classrooms();
       });
   }
 
@@ -121,14 +124,14 @@ export class AdminTeacherDetailsComponent implements OnInit {
           throw error
         })
       )
-      .subscribe(res => {
+      .subscribe(async res => {
         let classrooms = res as Classroom[];
         this.availableClassrooms = classrooms.filter(
           classroom => !this.teacherClassrooms.map(
             classroom => classroom.id
           ).includes(classroom.id)
         );
-        this.initPopovers();
+        console.log(this.availableClassrooms.length);
       });
   }
 
@@ -195,6 +198,7 @@ export class AdminTeacherDetailsComponent implements OnInit {
     for (let i = 0; i < tooltipTriggerList.length; i++) {
       new Tooltip(tooltipTriggerList[i]);
     }
+    console.log(this.availableClassrooms.length);
   }
 
   protected readonly document = document;

@@ -47,6 +47,18 @@ class TeacherCourse(Resource):
         dao.assign_teacher_to_course(teacher_id, course_id)
         return {'message': 'Teacher assigned to course successfully'}, 201
 
+    @ns.doc('delete_teacher_from_course')
+    @ns.expect(teacher_course_relation_model)
+    def delete(self):
+        """Remove teacher from course"""
+        data = request.json
+        teacher_id = data.get('teacher_id')
+        course_id = data.get('course_id')
+        if not teacher_id or not course_id:
+            ns.abort(400, "Missing teacher_id or course_id")
+        dao.unassign_teacher_from_course(teacher_id, course_id)
+        return {'message': 'Teacher removed from course successfully'}, 200
+
 @ns.route('/classroom/')
 class TeacherClassroom(Resource):
     @ns.doc('assign_teacher_to_classroom')
@@ -60,3 +72,15 @@ class TeacherClassroom(Resource):
             ns.abort(400, "Missing teacher_id or classroom_id")
         dao.assign_teacher_to_classroom(teacher_id, classroom_id)
         return {'message': 'Teacher assigned to classroom successfully'}, 201
+
+    @ns.doc('delete_teacher_from_classroom')
+    @ns.expect(teacher_classroom_relation_model)
+    def delete(self):
+        """Remove teacher from classroom"""
+        data = request.json
+        teacher_id = data.get('teacher_id')
+        classroom_id = data.get('classroom_id')
+        if not teacher_id or not classroom_id:
+            ns.abort(400, "Missing teacher_id or classroom_id")
+        dao.unassign_teacher_from_classroom(teacher_id, classroom_id)
+        return {'message': 'Teacher removed from classroom successfully'}, 200
