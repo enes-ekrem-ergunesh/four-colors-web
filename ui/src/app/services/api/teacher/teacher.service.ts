@@ -27,4 +27,12 @@ export class TeacherService {
       },
       await this.configService.authHeader(true))
   }
+
+  async assign_to_classroom(teacher_id: number, classroom_id: number) {
+    return this.http.post(this.api_url + '/teacher/classroom/', {
+        "teacher_id": teacher_id,
+        "classroom_id": classroom_id
+      },
+      await this.configService.authHeader(true))
+  }
 }

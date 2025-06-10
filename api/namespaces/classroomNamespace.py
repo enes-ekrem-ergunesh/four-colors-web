@@ -98,5 +98,3 @@ class TeacherAvailableClassroomList(Resource):
         classroom_manager = ClassroomManager()
         classroom_manager.get_available_classrooms_by_teacher_id(teacher_id)
         return classroom_manager.classrooms
-
-

@@ -5,13 +5,14 @@ import {AdminService} from "../../../../services/api/admin/admin.service";
 import {ConfigService} from "../../../../services/config/config.service";
 import {User} from "../../../../interfaces/api/user";
 import {ClassroomTableComponent} from "../../../../components/complex/classroom-table/classroom-table.component";
-import {DatePipe, NgForOf} from "@angular/common";
+import {DatePipe, NgForOf, NgIf} from "@angular/common";
 import {CourseTableComponent} from "../../../../components/complex/course-table/course-table.component";
 import {Course} from "../../../../interfaces/api/course";
 import {Classroom} from "../../../../interfaces/api/classroom";
 import {CourseService} from "../../../../services/api/course/course.service";
 import {ClassroomService} from "../../../../services/api/classroom/classroom.service";
 import {TeacherService} from "../../../../services/api/teacher/teacher.service";
+import {Tooltip} from "bootstrap";
 
 @Component({
   selector: 'app-admin-teacher-details',
@@ -23,7 +24,8 @@ import {TeacherService} from "../../../../services/api/teacher/teacher.service";
     ClassroomTableComponent,
     DatePipe,
     CourseTableComponent,
-    NgForOf
+    NgForOf,
+    NgIf
   ]
 })
 export class AdminTeacherDetailsComponent implements OnInit {
@@ -33,6 +35,7 @@ export class AdminTeacherDetailsComponent implements OnInit {
   teacherClassrooms: Classroom[] = []
 
   availableCourses: Course[] = []
+  availableClassrooms: Classroom[] = []
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -99,13 +102,33 @@ export class AdminTeacherDetailsComponent implements OnInit {
           throw error
         })
       )
-      .subscribe(res => {
+      .subscribe(async res => {
         let courses = res as Course[];
         this.availableCourses = courses.filter(
           course => !this.teacherCourses.map(
             course => course.id
           ).includes(course.id)
         );
+        await this.get_available_classrooms();
+      });
+  }
+
+  async get_available_classrooms() {
+    (await this.classroomService.get_classrooms())
+      .pipe(
+        catchError(error => {
+          this.configService.errorHandler(error, true)
+          throw error
+        })
+      )
+      .subscribe(res => {
+        let classrooms = res as Classroom[];
+        this.availableClassrooms = classrooms.filter(
+          classroom => !this.teacherClassrooms.map(
+            classroom => classroom.id
+          ).includes(classroom.id)
+        );
+        this.initPopovers();
       });
   }
 
@@ -135,6 +158,42 @@ export class AdminTeacherDetailsComponent implements OnInit {
         })
     } else {
       this.configService.errorHandler("Course not found", true);
+    }
+  }
+
+  async assign_to_classroom() {
+    let assign_to_classroom_input = document.getElementById('assign-classroom-input') as HTMLInputElement;
+    if (!assign_to_classroom_input.value) {
+      let err = {error: {message: "Something went wrong"}, status: 400};
+      this.configService.errorHandler(err, true);
+      return;
+    }
+    const classroom_name = assign_to_classroom_input.value;
+    const classroom_id = this.availableClassrooms.find(
+      classroom => classroom.name === classroom_name
+    )?.id;
+    if (classroom_id) {
+      (await this.teacherService.assign_to_classroom(this.userId, classroom_id))
+        .pipe(
+          catchError(error => {
+            this.configService.errorHandler(error, true)
+            throw error
+          })
+        )
+        .subscribe(() => {
+          this.configService.successHandler("Classroom assigned successfully");
+          this.getTeacherClassrooms();
+          this.get_available_classrooms();
+        })
+    } else {
+      this.configService.errorHandler("Course not found", true);
+    }
+  }
+
+  initPopovers() {
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    for (let i = 0; i < tooltipTriggerList.length; i++) {
+      new Tooltip(tooltipTriggerList[i]);
     }
   }
 
