@@ -5,7 +5,7 @@ import {AdminService} from "../../../../services/api/admin/admin.service";
 import {ConfigService} from "../../../../services/config/config.service";
 import {User} from "../../../../interfaces/api/user";
 import {ClassroomTableComponent} from "../../../../components/complex/classroom-table/classroom-table.component";
-import {DatePipe, NgForOf, NgIf} from "@angular/common";
+import {DatePipe, NgForOf} from "@angular/common";
 import {CourseTableComponent} from "../../../../components/complex/course-table/course-table.component";
 import {Course} from "../../../../interfaces/api/course";
 import {Classroom} from "../../../../interfaces/api/classroom";
@@ -24,8 +24,7 @@ import {Tooltip} from "bootstrap";
     ClassroomTableComponent,
     DatePipe,
     CourseTableComponent,
-    NgForOf,
-    NgIf
+    NgForOf
   ]
 })
 export class AdminTeacherDetailsComponent implements OnInit {
@@ -49,14 +48,7 @@ export class AdminTeacherDetailsComponent implements OnInit {
   }
 
   async ngOnInit() {
-    await this.getUserDetails();
-    await this.getTeacherCourses();
-    await this.getTeacherClassrooms();
-    await this.get_available_courses();
-    await this.get_available_classrooms();
-    setTimeout(() => {
-      this.initPopovers();
-    }, 300)
+    await this.refresh_the_view();
   }
 
   async getUserDetails() {
@@ -154,14 +146,15 @@ export class AdminTeacherDetailsComponent implements OnInit {
             throw error
           })
         )
-        .subscribe(() => {
+        .subscribe(async () => {
           this.configService.successHandler("Course assigned successfully");
-          this.getTeacherCourses();
-          this.get_available_courses();
+          assign_to_course_input.value = "";
+          await this.refresh_the_view();
         })
     } else {
       this.configService.errorHandler("Course not found", true);
     }
+
   }
 
   async assign_to_classroom() {
@@ -183,10 +176,10 @@ export class AdminTeacherDetailsComponent implements OnInit {
             throw error
           })
         )
-        .subscribe(() => {
+        .subscribe(async () => {
           this.configService.successHandler("Classroom assigned successfully");
-          this.getTeacherClassrooms();
-          this.get_available_classrooms();
+          assign_to_classroom_input.value = '';
+          await this.refresh_the_view();
         })
     } else {
       this.configService.errorHandler("Course not found", true);
@@ -199,6 +192,17 @@ export class AdminTeacherDetailsComponent implements OnInit {
       new Tooltip(tooltipTriggerList[i]);
     }
     console.log(this.availableClassrooms.length);
+  }
+
+  async refresh_the_view(){
+    await this.getUserDetails();
+    await this.getTeacherCourses();
+    await this.getTeacherClassrooms();
+    await this.get_available_courses();
+    await this.get_available_classrooms();
+    setTimeout(() => {
+      this.initPopovers();
+    }, 300)
   }
 
   protected readonly document = document;
