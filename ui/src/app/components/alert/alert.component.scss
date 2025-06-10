@@ -1,9 +1,17 @@
 .alert-container{
+  position: sticky;
+  z-index: 1000;
+  right: 0;
+  top: 0;
+  width: 100%;
+}
+
+.alert-inner{
   position: absolute;
   z-index: 1000;
   right: 10px;
   top: 10px;
-  opacity: 80%;
+  opacity: 90%;
   width: 330px;
 }
 

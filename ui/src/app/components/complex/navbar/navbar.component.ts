@@ -57,7 +57,6 @@ export class NavbarComponent implements OnInit, OnChanges {
 
     setTimeout(() => {
       const dropdownElementList = document.querySelectorAll('.dropdown-toggle')
-      console.log(dropdownElementList)
       if (dropdownElementList) {
         for (let i = 0; i < dropdownElementList.length; i++) {
           const dropdown = new Dropdown(dropdownElementList[i])

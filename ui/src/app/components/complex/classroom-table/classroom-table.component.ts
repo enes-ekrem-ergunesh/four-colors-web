@@ -1,4 +1,4 @@
-import {Component, input, OnInit} from '@angular/core';
+import {Component, input, OnInit, output} from '@angular/core';
 import {Router} from "@angular/router";
 import {Classroom} from "../../../interfaces/api/classroom";
 import {DatePipe, NgForOf, NgIf} from "@angular/common";
@@ -29,8 +29,10 @@ export class ClassroomTableComponent implements OnInit{
     {title: 'Session Duration', button_id: 'expected_session_duration'},
     {title: 'Created at', button_id: 'created_at'},
     {title: 'Deleted', button_id: 'deleted_at'},
+    {title: '', button_id: ''},
   ]
   courses: Course[] = []
+  delete = output<number>();
 
   constructor(
     private router: Router,
@@ -79,4 +81,9 @@ export class ClassroomTableComponent implements OnInit{
     await this.router.navigate(['/admin-classroom-details', classroom.id])
   }
 
+  onDelete(id: number) {
+    this.delete.emit(id)
+  }
+
+  protected readonly console = console;
 }

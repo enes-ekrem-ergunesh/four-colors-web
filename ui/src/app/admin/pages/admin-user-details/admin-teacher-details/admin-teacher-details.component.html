@@ -52,7 +52,7 @@
           </button>
         </div>
       </div>
-      <app-classroom-table [classrooms]="teacherClassrooms"></app-classroom-table>
+      <app-classroom-table (delete)="unassign_classroom($event)" [classrooms]="teacherClassrooms"></app-classroom-table>
     </div>
   </div>
 </div>

@@ -35,4 +35,16 @@ export class TeacherService {
       },
       await this.configService.authHeader(true))
   }
+
+  async unassign_classroom(teacher_id: number, classroom_id: number) {
+    const headers = (await this.configService.authHeader(true))['headers']
+    return this.http.delete(this.api_url + '/teacher/classroom/',
+      {
+        headers: headers, body: {
+          "teacher_id": teacher_id,
+          "classroom_id": classroom_id
+        }
+      })
+  }
+
 }

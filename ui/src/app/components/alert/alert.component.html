@@ -1,14 +1,16 @@
 <div class="alert-container">
-  <div *ngFor="let alert of alerts"
-       [class]="'alert d-flex align-items-center alert-dismissible mb-1 ' + alertTheme(alert.type)"
-       role="alert">
-    <div class="d-flex me-3">
-      <ion-icon [name]="alertIcon(alert.type)" class="my-auto"></ion-icon>
+  <div class="alert-inner">
+    <div *ngFor="let alert of alerts"
+         [class]="'alert d-flex align-items-center alert-dismissible mb-1 ' + alertTheme(alert.type)"
+         role="alert">
+      <div class="d-flex me-3">
+        <ion-icon [name]="alertIcon(alert.type)" class="my-auto"></ion-icon>
+      </div>
+      <div>
+        {{ alert.message }}
+      </div>
+      <button (click)="dismissAlert(alert)" type="button" class="btn-close"
+              aria-label="Close"></button>
     </div>
-    <div>
-      {{ alert.message }}
-    </div>
-    <button (click)="dismissAlert(alert)" type="button" class="btn-close"
-            aria-label="Close"></button>
   </div>
 </div>

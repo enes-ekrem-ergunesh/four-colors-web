@@ -105,6 +105,7 @@ export class AdminTeacherDetailsComponent implements OnInit {
             course => course.id
           ).includes(course.id)
         );
+        console.log(this.availableCourses);
       });
   }
 
@@ -123,12 +124,16 @@ export class AdminTeacherDetailsComponent implements OnInit {
             classroom => classroom.id
           ).includes(classroom.id)
         );
-        console.log(this.availableClassrooms.length);
       });
   }
 
   async assign_to_course() {
     let assign_to_course_input = document.getElementById('assign-course-input') as HTMLInputElement;
+    if (assign_to_course_input.value == '') {
+      let err = {error: {message: "Please enter the course name"}, status: 400};
+      this.configService.errorHandler(err, true);
+      return;
+    }
     if (!assign_to_course_input.value) {
       let err = {error: {message: "Something went wrong"}, status: 400};
       this.configService.errorHandler(err, true);
@@ -152,13 +157,23 @@ export class AdminTeacherDetailsComponent implements OnInit {
           await this.refresh_the_view();
         })
     } else {
-      this.configService.errorHandler("Course not found", true);
+      let err = {error: {message: "Course not found"}, status: 404};
+      this.configService.errorHandler(err, true);
     }
 
   }
 
+  async unassign_course(course_id: number) {
+    console.log("course_id to be deleted", course_id);
+  }
+
   async assign_to_classroom() {
     let assign_to_classroom_input = document.getElementById('assign-classroom-input') as HTMLInputElement;
+    if (assign_to_classroom_input.value == '') {
+      let err = {error: {message: "Please enter the classroom name"}, status: 400};
+      this.configService.errorHandler(err, true);
+      return;
+    }
     if (!assign_to_classroom_input.value) {
       let err = {error: {message: "Something went wrong"}, status: 400};
       this.configService.errorHandler(err, true);
@@ -182,8 +197,24 @@ export class AdminTeacherDetailsComponent implements OnInit {
           await this.refresh_the_view();
         })
     } else {
-      this.configService.errorHandler("Course not found", true);
+      let err = {error: {message: "Classroom not found"}, status: 404};
+      this.configService.errorHandler(err, true);
     }
+  }
+
+  async unassign_classroom(classroom_id: number) {
+    console.log("classroom_id to be deleted", classroom_id);
+    (await this.teacherService.unassign_classroom(this.userId, classroom_id))
+      .pipe(
+        catchError(error => {
+          this.configService.errorHandler(error, true)
+          throw error
+        })
+      )
+      .subscribe(async () => {
+        this.configService.successHandler("Classroom unassigned successfully");
+        await this.refresh_the_view();
+      })
   }
 
   initPopovers() {
@@ -191,10 +222,9 @@ export class AdminTeacherDetailsComponent implements OnInit {
     for (let i = 0; i < tooltipTriggerList.length; i++) {
       new Tooltip(tooltipTriggerList[i]);
     }
-    console.log(this.availableClassrooms.length);
   }
 
-  async refresh_the_view(){
+  async refresh_the_view() {
     await this.getUserDetails();
     await this.getTeacherCourses();
     await this.getTeacherClassrooms();
@@ -204,6 +234,7 @@ export class AdminTeacherDetailsComponent implements OnInit {
       this.initPopovers();
     }, 300)
   }
+
 
   protected readonly document = document;
 }
