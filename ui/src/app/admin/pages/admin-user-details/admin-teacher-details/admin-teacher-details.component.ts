@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewChecked, Component, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from "@angular/router";
-import {catchError} from "rxjs";
+import {catchError, firstValueFrom} from "rxjs";
 import {AdminService} from "../../../../services/api/admin/admin.service";
 import {ConfigService} from "../../../../services/config/config.service";
 import {User} from "../../../../interfaces/api/user";
@@ -27,7 +27,7 @@ import {Tooltip} from "bootstrap";
     NgForOf
   ]
 })
-export class AdminTeacherDetailsComponent implements OnInit {
+export class AdminTeacherDetailsComponent implements OnInit, AfterViewChecked {
   userId!: number;
   user: User = {} as User;
   teacherCourses: Course[] = []
@@ -35,6 +35,10 @@ export class AdminTeacherDetailsComponent implements OnInit {
 
   availableCourses: Course[] = []
   availableClassrooms: Classroom[] = []
+  previousAvailableClassroomsLength = 0
+
+  tooltipList: Tooltip[] = []
+  needsTooltipUpdate = true;
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -51,80 +55,95 @@ export class AdminTeacherDetailsComponent implements OnInit {
     await this.refresh_the_view();
   }
 
+  ngAfterViewChecked(): void {
+    // Check if the data that influences the tooltip has changed
+    if (this.availableClassrooms.length !== this.previousAvailableClassroomsLength) {
+      this.needsTooltipUpdate = true; // Mark that tooltips need to be updated
+      this.previousAvailableClassroomsLength = this.availableClassrooms.length; // Update the previous value
+    }
+
+    // Only run initTooltips if marked as needed
+    if (this.needsTooltipUpdate) {
+      // Use setTimeout(0) to defer execution to the next JavaScript event loop tick.
+      // This ensures Angular has completed its DOM updates before we query the DOM.
+      setTimeout(() => {
+        this.initTooltips();
+        this.needsTooltipUpdate = false; // Reset the flag after updating
+      }, 0);
+    }
+  }
+
   async getUserDetails() {
-    (await this.adminService.get_user_by_id(this.userId))
+    let res = await firstValueFrom((await this.adminService.get_user_by_id(this.userId))
       .pipe(
         catchError(error => {
           this.configService.errorHandler(error, true)
           throw error
         })
       )
-      .subscribe(res => {
-        this.user = res as User;
-      })
+    )
+    this.user = res as User;
   }
 
   async getTeacherCourses() {
-    (await this.courseService.get_courses_by_teacher_id(this.userId))
+    let res = await firstValueFrom((await this.courseService.get_courses_by_teacher_id(this.userId))
       .pipe(
         catchError(error => {
           this.configService.errorHandler(error, true)
           throw error
         })
       )
-      .subscribe(res => {
-        this.teacherCourses = res as Course[];
-      })
+    )
+    this.teacherCourses = res as Course[];
   }
 
   async getTeacherClassrooms() {
-    (await this.classroomService.get_classrooms_by_teacher_id(this.userId))
+    let res = await firstValueFrom((await this.classroomService.get_classrooms_by_teacher_id(this.userId))
       .pipe(
         catchError(error => {
           this.configService.errorHandler(error, true)
           throw error
         })
       )
-      .subscribe(res => {
-        this.teacherClassrooms = res as Classroom[];
-      })
+    )
+    this.teacherClassrooms = res as Classroom[];
   }
 
   async get_available_courses() {
-    (await this.courseService.get_courses())
+    let res = await firstValueFrom((await this.courseService.get_courses())
       .pipe(
         catchError(error => {
           this.configService.errorHandler(error, true)
           throw error
         })
       )
-      .subscribe(res => {
-        let courses = res as Course[];
-        this.availableCourses = courses.filter(
-          course => !this.teacherCourses.map(
-            course => course.id
-          ).includes(course.id)
-        );
-        console.log(this.availableCourses);
-      });
+    )
+    let courses = res as Course[];
+    this.availableCourses = courses.filter(
+      course => !this.teacherCourses.map(
+        course => course.id
+      ).includes(course.id)
+    );
   }
 
   async get_available_classrooms() {
-    (await this.classroomService.get_classrooms())
+    console.log("RUNNER 0")
+    let res = await firstValueFrom((await this.classroomService.get_classrooms())
       .pipe(
         catchError(error => {
           this.configService.errorHandler(error, true)
           throw error
         })
       )
-      .subscribe(async res => {
-        let classrooms = res as Classroom[];
-        this.availableClassrooms = classrooms.filter(
-          classroom => !this.teacherClassrooms.map(
-            classroom => classroom.id
-          ).includes(classroom.id)
-        );
-      });
+    )
+    console.log("RUNNER 1")
+    let classrooms = res as Classroom[];
+    this.availableClassrooms = classrooms.filter(
+      classroom => !this.teacherClassrooms.map(
+        classroom => classroom.id
+      ).includes(classroom.id)
+    );
+    console.log("RUNNER 2", this.availableClassrooms.length)
   }
 
   async assign_to_course() {
@@ -155,7 +174,7 @@ export class AdminTeacherDetailsComponent implements OnInit {
           this.configService.successHandler("Course assigned successfully");
           assign_to_course_input.value = "";
           await this.refresh_the_view();
-        })
+        });
     } else {
       let err = {error: {message: "Course not found"}, status: 404};
       this.configService.errorHandler(err, true);
@@ -217,10 +236,16 @@ export class AdminTeacherDetailsComponent implements OnInit {
       })
   }
 
-  initPopovers() {
+  initTooltips() {
+    console.log("RUNNER 3")
+    for (let i = 0; i < this.tooltipList.length; i++) {
+      this.tooltipList[i].dispose()
+    }
+    this.tooltipList = [];
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    console.log(tooltipTriggerList);
     for (let i = 0; i < tooltipTriggerList.length; i++) {
-      new Tooltip(tooltipTriggerList[i]);
+      this.tooltipList.push(new Tooltip(tooltipTriggerList[i]));
     }
   }
 
@@ -230,9 +255,6 @@ export class AdminTeacherDetailsComponent implements OnInit {
     await this.getTeacherClassrooms();
     await this.get_available_courses();
     await this.get_available_classrooms();
-    setTimeout(() => {
-      this.initPopovers();
-    }, 300)
   }
 
 
