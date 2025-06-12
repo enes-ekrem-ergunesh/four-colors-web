@@ -58,7 +58,6 @@ export class ClassroomTableComponent implements OnInit{
   }
 
   sort({column, direction}: {column:string, direction:number}){
-    console.log(`sorting by ${column} in direction ${direction}`)
     this.classrooms().sort((a, b) => {
       const valueA = (a as any)[column];
       const valueB = (b as any)[column];
@@ -84,6 +83,4 @@ export class ClassroomTableComponent implements OnInit{
   onDelete(id: number) {
     this.delete.emit(id)
   }
-
-  protected readonly console = console;
 }

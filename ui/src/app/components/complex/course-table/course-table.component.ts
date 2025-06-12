@@ -1,7 +1,7 @@
-import {Component, input} from '@angular/core';
+import {Component, input, output} from '@angular/core';
 import {Course} from "../../../interfaces/api/course";
 import {Router} from "@angular/router";
-import {DatePipe, NgForOf} from "@angular/common";
+import {DatePipe, NgForOf, NgIf} from "@angular/common";
 import {FilterDropdownComponent} from "../user-table/filter-dropdown/filter-dropdown.component";
 
 @Component({
@@ -11,18 +11,27 @@ import {FilterDropdownComponent} from "../user-table/filter-dropdown/filter-drop
   imports: [
     DatePipe,
     FilterDropdownComponent,
-    NgForOf
+    NgForOf,
+    NgIf
   ]
 })
 export class CourseTableComponent {
   courses = input<Course[]>([]);
+  headers = [
+    {title: 'ID', button_id: 'id'},
+    {title: 'Name', button_id: 'name'},
+    {title: 'Description', button_id: 'description'},
+    {title: 'Created at', button_id: 'created_at'},
+    {title: 'Deleted', button_id: 'deleted_at'},
+    {title: '', button_id: ''},
+  ]
+  delete = output<number>();
 
   constructor(
     private router: Router
   ) { }
 
   sort({column, direction}: {column:string, direction:number}){
-    console.log(`sorting by ${column} in direction ${direction}`)
     this.courses().sort((a, b) => {
       const valueA = (a as any)[column];
       const valueB = (b as any)[column];
@@ -43,6 +52,10 @@ export class CourseTableComponent {
   async openCourse(course: Course) {
     console.log(course)
     await this.router.navigate(['/admin-course-details', course.id])
+  }
+
+  onDelete(id: number) {
+    this.delete.emit(id)
   }
 
 }

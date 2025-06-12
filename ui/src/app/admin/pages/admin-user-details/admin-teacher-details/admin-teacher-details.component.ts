@@ -34,6 +34,7 @@ export class AdminTeacherDetailsComponent implements OnInit, AfterViewChecked {
   teacherClassrooms: Classroom[] = []
 
   availableCourses: Course[] = []
+  previousAvailableCoursesLength = 0
   availableClassrooms: Classroom[] = []
   previousAvailableClassroomsLength = 0
 
@@ -56,19 +57,20 @@ export class AdminTeacherDetailsComponent implements OnInit, AfterViewChecked {
   }
 
   ngAfterViewChecked(): void {
-    // Check if the data that influences the tooltip has changed
-    if (this.availableClassrooms.length !== this.previousAvailableClassroomsLength) {
-      this.needsTooltipUpdate = true; // Mark that tooltips need to be updated
-      this.previousAvailableClassroomsLength = this.availableClassrooms.length; // Update the previous value
+    if (this.availableCourses.length !== this.previousAvailableCoursesLength) {
+      this.needsTooltipUpdate = true;
+      this.previousAvailableCoursesLength = this.availableCourses.length;
     }
 
-    // Only run initTooltips if marked as needed
+    if (this.availableClassrooms.length !== this.previousAvailableClassroomsLength) {
+      this.needsTooltipUpdate = true;
+      this.previousAvailableClassroomsLength = this.availableClassrooms.length;
+    }
+
     if (this.needsTooltipUpdate) {
-      // Use setTimeout(0) to defer execution to the next JavaScript event loop tick.
-      // This ensures Angular has completed its DOM updates before we query the DOM.
       setTimeout(() => {
         this.initTooltips();
-        this.needsTooltipUpdate = false; // Reset the flag after updating
+        this.needsTooltipUpdate = false;
       }, 0);
     }
   }
@@ -183,7 +185,17 @@ export class AdminTeacherDetailsComponent implements OnInit, AfterViewChecked {
   }
 
   async unassign_course(course_id: number) {
-    console.log("course_id to be deleted", course_id);
+    (await this.teacherService.unassign_course(this.userId, course_id))
+      .pipe(
+        catchError(error => {
+          this.configService.errorHandler(error, true)
+          throw error
+        })
+      )
+      .subscribe(async () => {
+        this.configService.successHandler("Course unassigned successfully");
+        await this.refresh_the_view();
+      })
   }
 
   async assign_to_classroom() {
@@ -222,7 +234,6 @@ export class AdminTeacherDetailsComponent implements OnInit, AfterViewChecked {
   }
 
   async unassign_classroom(classroom_id: number) {
-    console.log("classroom_id to be deleted", classroom_id);
     (await this.teacherService.unassign_classroom(this.userId, classroom_id))
       .pipe(
         catchError(error => {

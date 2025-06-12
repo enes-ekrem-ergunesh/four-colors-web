@@ -28,6 +28,17 @@ export class TeacherService {
       await this.configService.authHeader(true))
   }
 
+  async unassign_course(teacher_id: number, course_id: number) {
+    const headers = (await this.configService.authHeader(true))['headers']
+    return this.http.delete(this.api_url + '/teacher/course/',
+      {
+        headers: headers, body: {
+          "teacher_id": teacher_id,
+          "course_id": course_id
+        }
+      })
+  }
+
   async assign_to_classroom(teacher_id: number, classroom_id: number) {
     return this.http.post(this.api_url + '/teacher/classroom/', {
         "teacher_id": teacher_id,
