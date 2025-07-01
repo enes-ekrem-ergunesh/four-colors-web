@@ -10,5 +10,5 @@
       New Classroom
     </a>
   </div>
-  <app-classroom-table [classrooms]="classrooms"></app-classroom-table>
+  <app-classroom-table (delete)="soft_delete_classroom($event)" [classrooms]="classrooms"></app-classroom-table>
 </div>

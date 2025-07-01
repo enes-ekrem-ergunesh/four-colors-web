@@ -31,6 +31,24 @@ export class AdminClassroomsPage implements OnInit {
   }
 
   async ngOnInit() {
+    await this.get_classrooms()
+  }
+
+  async soft_delete_classroom(classroom_id: number) {
+    (await this.classroomService.soft_delete_classroom(classroom_id))
+      .pipe(
+        catchError(error => {
+          this.configService.errorHandler(error, true)
+          throw error
+        })
+      )
+      .subscribe(async () => {
+        this.configService.successHandler("Classroom soft deleted successfully");
+        await this.refresh_the_view();
+      })
+  }
+
+  async get_classrooms(){
     (await this.classroomService.get_classrooms())
       .pipe(
         catchError(error => {
@@ -41,6 +59,10 @@ export class AdminClassroomsPage implements OnInit {
       .subscribe((response) => {
         this.classrooms = response as Classroom[];
       })
+  }
+
+  async refresh_the_view(){
+    await this.get_classrooms()
   }
 
 }

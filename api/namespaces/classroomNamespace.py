@@ -1,10 +1,8 @@
-from flask import request
 from flask_restx import Namespace, Resource, fields
 
 from namespaces.adminNamespace import block_non_admin
 
 from objects.Classroom import Classroom, ClassroomManager
-from special_logger import special_log
 
 ns = Namespace('classroom', description='Classroom related operations')
 
@@ -26,8 +24,10 @@ new_classroom_model = ns.model('New Classroom', {
     'expected_session_duration': fields.Integer(required=True, description='Expected session duration in minutes'),
 })
 
+
 def get_classroom_object(classroom_id=None):
     classroom = None
+
     def exception_handler(e):
         # special_log("/login", str(e), email=ns.payload['email'])
         # if str(e) == 'User not found for given email':
@@ -35,6 +35,7 @@ def get_classroom_object(classroom_id=None):
         #     return
         # ns.abort(401, e)
         return
+
     if classroom_id:
         try:
             classroom = Classroom(classroom_id=ns.payload['id'])
@@ -44,6 +45,7 @@ def get_classroom_object(classroom_id=None):
         ns.abort(500, "Internal server error: classroom_id is required")
         return None
     return classroom
+
 
 @ns.route('/')
 class ClassroomList(Resource):
@@ -69,6 +71,25 @@ class ClassroomList(Resource):
         classroom = Classroom(classroom_id=classroom_id)
         return classroom
 
+
+@ns.route('/<int:classroom_id>')
+class ClassroomDetail(Resource):
+    @ns.doc('soft_delete_classroom')
+    def delete(self, classroom_id):
+        """Soft-delete a classroom by id"""
+        block_non_admin()
+        classroom = Classroom(classroom_id=classroom_id)
+        if not classroom:
+            ns.abort(404, "Classroom not found")
+            return None
+        try:
+            classroom.soft_delete()
+        except ValueError as ve:
+            ns.abort(400, str(ve))
+            return None
+        return {'message': 'Classroom soft-deleted successfully'}, 204
+
+
 @ns.route('/course/<int:course_id>')
 class CourseClassroomList(Resource):
     @ns.doc('get_classrooms_by_course_id')
@@ -79,6 +100,7 @@ class CourseClassroomList(Resource):
         classroom_manager.get_classrooms_by_course_id(course_id)
         return classroom_manager.classrooms
 
+
 @ns.route('/teacher/<int:teacher_id>')
 class TeacherClassroomList(Resource):
     @ns.doc('get_classrooms_by_teacher_id')
@@ -88,6 +110,7 @@ class TeacherClassroomList(Resource):
         classroom_manager = ClassroomManager()
         classroom_manager.get_classrooms_by_teacher_id(teacher_id)
         return classroom_manager.classrooms
+
 
 @ns.route('/teacher/available/<int:teacher_id>')
 class TeacherAvailableClassroomList(Resource):

@@ -30,4 +30,9 @@ export class ClassroomService {
   async new_classroom(classroom: NewClassroom) {
     return this.http.post(this.api_url + '/classroom/', classroom, await this.configService.authHeader(true))
   }
+
+  async soft_delete_classroom(classroom_id: number) {
+    return this.http.delete(this.api_url + '/classroom/' + classroom_id, await this.configService.authHeader(true))
+  }
+
 }

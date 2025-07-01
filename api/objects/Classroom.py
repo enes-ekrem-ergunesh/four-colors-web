@@ -47,6 +47,14 @@ class Classroom:
                 raise ValueError("Unexpected error occurred while creating classroom")
         return classroom_id
 
+    def soft_delete(self):
+        if Classroom.dao is None:
+            Classroom.dao = ClassroomDAO()
+        try:
+            Classroom.dao.soft_delete(self.id)
+        except pymysql.err.IntegrityError as e:
+            raise ValueError("Classroom cannot be deleted due to existing sessions or other dependencies")
+
 class ClassroomManager:
     def __init__(self):
         if Classroom.dao is None:

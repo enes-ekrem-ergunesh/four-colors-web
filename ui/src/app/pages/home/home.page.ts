@@ -8,12 +8,13 @@ import {UserService} from "../../services/api/user/user.service";
 import {catchError} from "rxjs";
 import {ConfigService} from "../../services/config/config.service";
 import {HomeCarouselComponent} from "./home-carousel/home-carousel.component";
+import {IonButton} from "@ionic/angular/standalone";
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
-  imports: [NavbarComponent, HomeCarouselComponent],
+  imports: [NavbarComponent, HomeCarouselComponent, IonButton],
 })
 export class HomePage implements OnInit {
   navs: Nav[] = [

@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {FormGroup, FormsModule} from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
 import {Nav} from "../../../../interfaces/ui/nav";
 import {CommonTsService} from "../../../../services/common-ts/common-ts.service";
 import {ConfigService} from "../../../../services/config/config.service";
@@ -10,7 +9,6 @@ import {catchError} from "rxjs";
 import {ClassroomService} from "../../../../services/api/classroom/classroom.service";
 import {NewClassroom} from "../../../../interfaces/api/new-classroom";
 import {NavbarComponent} from "../../../../components/complex/navbar/navbar.component";
-import {NewCourseFormComponent} from "../../../../components/form/new-course-form/new-course-form.component";
 import {NewClassroomFormComponent} from "../../../../components/form/new-classroom-form/new-classroom-form.component";
 
 @Component({
@@ -18,7 +16,7 @@ import {NewClassroomFormComponent} from "../../../../components/form/new-classro
   templateUrl: './new-classroom.page.html',
   styleUrls: ['./new-classroom.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, NavbarComponent, NewCourseFormComponent, NewClassroomFormComponent]
+  imports: [CommonModule, FormsModule, NavbarComponent, NewClassroomFormComponent]
 })
 export class NewClassroomPage {
   navs!: Nav[]
