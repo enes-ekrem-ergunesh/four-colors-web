@@ -10,6 +10,7 @@ import {catchError} from "rxjs";
 import {CourseService} from "../../../services/api/course/course.service";
 import {RouterLink, RouterLinkActive} from "@angular/router";
 import {CourseTableComponent} from "../../../components/complex/course-table/course-table.component";
+import {Classroom} from "../../../interfaces/api/classroom";
 
 @Component({
   selector: 'app-admin-courses',
@@ -31,6 +32,25 @@ export class AdminCoursesPage implements OnInit {
   }
 
   async ngOnInit() {
+    await this.get_courses()
+  }
+
+
+  async soft_delete_course(course_id: number) {
+    (await this.courseService.soft_delete_course(course_id))
+      .pipe(
+        catchError(error => {
+          this.configService.errorHandler(error, true)
+          throw error
+        })
+      )
+      .subscribe(async () => {
+        this.configService.successHandler("Course soft deleted successfully");
+        await this.refresh_the_view();
+      })
+  }
+
+  async get_courses(){
     (await this.courseService.get_courses())
       .pipe(
         catchError(error => {
@@ -41,6 +61,10 @@ export class AdminCoursesPage implements OnInit {
       .subscribe((response) => {
         this.courses = response as Course[];
       })
+  }
+
+  async refresh_the_view(){
+    await this.get_courses()
   }
 
 }

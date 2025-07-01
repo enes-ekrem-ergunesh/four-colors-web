@@ -50,6 +50,15 @@ class Course:
             raise ValueError("Course with same name already exists")
         return course_id
 
+    def soft_delete(self):
+        if Course.dao is None:
+            Course.dao = CourseDAO()
+        try:
+            Course.dao.soft_delete(self.id)
+        except pymysql.err.IntegrityError as e:
+            raise ValueError("Course cannot be deleted due to existing sessions or other dependencies")
+
+
 class CourseManager:
     def __init__(self):
         if Course.dao is None:

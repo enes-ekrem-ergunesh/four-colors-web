@@ -10,5 +10,5 @@
       New Course
     </a>
   </div>
-  <app-course-table [courses]="courses"></app-course-table>
+  <app-course-table (delete)="soft_delete_course($event)" [courses]="courses"></app-course-table>
 </div>

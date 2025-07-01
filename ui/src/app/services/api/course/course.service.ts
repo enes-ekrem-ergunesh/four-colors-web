@@ -31,4 +31,8 @@ export class CourseService {
     return this.http.get(this.api_url + '/course/teacher/' + teacher_id, await this.configService.authHeader(true))
   }
 
+  async soft_delete_course(course_id: number) {
+    return this.http.delete(this.api_url + '/course/' + course_id, await this.configService.authHeader(true))
+  }
+
 }
