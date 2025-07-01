@@ -88,6 +88,11 @@ export const routes: Routes = [
     loadComponent: () => import('./admin/pages/admin-classrooms/admin-classrooms.page').then( m => m.AdminClassroomsPage)
   },
   {
+    path: 'admin-classroom-details/:classroomId',
+    loadComponent: () => import('./admin/pages/admin-classrooms/admin-classroom-details/admin-classroom-details.page').then( m => m.AdminClassroomDetailsPage),
+    canActivate: [adminAuthGuard]
+  },
+  {
     path: 'new-classroom',
     loadComponent: () => import('./admin/pages/admin-classrooms/new-classroom/new-classroom.page').then( m => m.NewClassroomPage)
   },

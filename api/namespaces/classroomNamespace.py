@@ -38,14 +38,13 @@ def get_classroom_object(classroom_id=None):
 
     if classroom_id:
         try:
-            classroom = Classroom(classroom_id=ns.payload['id'])
+            classroom = Classroom(classroom_id=classroom_id)
         except ValueError as ve:
             exception_handler(ve)
     else:
         ns.abort(500, "Internal server error: classroom_id is required")
         return None
     return classroom
-
 
 @ns.route('/')
 class ClassroomList(Resource):
@@ -71,9 +70,18 @@ class ClassroomList(Resource):
         classroom = Classroom(classroom_id=classroom_id)
         return classroom
 
-
 @ns.route('/<int:classroom_id>')
 class ClassroomDetail(Resource):
+    @ns.doc('get_classroom')
+    @ns.marshal_with(classroom_model)
+    def get(self, classroom_id):
+        """Get a classroom by ID"""
+        classroom = get_classroom_object(classroom_id=classroom_id)
+        if not classroom:
+            ns.abort(404, "Classroom not found")
+            return None
+        return classroom
+
     @ns.doc('soft_delete_classroom')
     def delete(self, classroom_id):
         """Soft-delete a classroom by id"""
@@ -88,7 +96,6 @@ class ClassroomDetail(Resource):
             ns.abort(400, str(ve))
             return None
         return {'message': 'Classroom soft-deleted successfully'}, 204
-
 
 @ns.route('/course/<int:course_id>')
 class CourseClassroomList(Resource):

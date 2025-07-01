@@ -1,0 +1,25 @@
+<app-navbar [navs]="navs" [logout]="true" [is_admin_page]="true"></app-navbar>
+
+<a routerLink="/admin-classrooms" style="text-decoration: auto">
+  <p>
+    <svg style="margin: -3px -4px 0 3px" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left-fill" viewBox="0 0 16 16">
+      <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/>
+    </svg>
+    Classrooms
+  </p>
+</a>
+
+<div class="container mt-3">
+  <div class="row">
+    <div class="col">
+      <h2>{{ classroom.name }}</h2>
+      <p class="fst-italic">{{ classroom.course_id }}</p>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col">
+      <h3>Teachers</h3>
+      <app-user-table [users]="classroomTeachers"></app-user-table>
+    </div>
+  </div>
+</div>

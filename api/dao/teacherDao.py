@@ -17,6 +17,18 @@ where course_id = %s
         params = (course_id,)
         return self.execute_query(query, params)
 
+    def get_teachers_by_classroom_id(self, classroom_id):
+        query = """
+select u.*
+from teachers t
+join users u on t.id = u.id
+join teacher_classrooms tc on t.id = tc.teacher_id
+where classroom_id = %s
+;
+"""
+        params = (classroom_id,)
+        return self.execute_query(query, params)
+
     def assign_teacher_to_course(self, teacher_id, course_id):
         query = "insert into teacher_courses values (%s, %s);"
         params = (teacher_id, course_id)

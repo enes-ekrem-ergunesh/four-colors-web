@@ -59,6 +59,18 @@ class TeacherCourse(Resource):
         dao.unassign_teacher_from_course(teacher_id, course_id)
         return {'message': 'Teacher removed from course successfully'}, 200
 
+@ns.route('/classroom/<int:classroom_id>')
+class CourseTeacher(Resource):
+    @ns.doc('get_teachers_by_classroom_id')
+    @ns.marshal_list_with(user_model)
+    def get(self, classroom_id):
+        """Get teachers by classroom id"""
+        special_log("/teacher/classroom", f"classroom_id: {classroom_id}")
+        teachers = dao.get_teachers_by_classroom_id(classroom_id)
+        if not teachers:
+            ns.abort(404, "No teachers found for the given classroom id")
+        return teachers
+
 @ns.route('/classroom/')
 class TeacherClassroom(Resource):
     @ns.doc('assign_teacher_to_classroom')
