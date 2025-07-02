@@ -103,3 +103,7 @@ class BaseDAO:
     def soft_delete(self, record_id):
         query = f"UPDATE {self.table} SET deleted_at = NOW() WHERE id = %s"
         self.execute_update(query, params=(record_id,))
+
+    def restore(self, record_id):
+        query = f"UPDATE {self.table} SET deleted_at = NULL WHERE id = %s"
+        self.execute_update(query, params=(record_id,))

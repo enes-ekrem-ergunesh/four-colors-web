@@ -7,6 +7,8 @@ import {Course} from "../../../interfaces/api/course";
 import {catchError} from "rxjs";
 import {CourseService} from "../../../services/api/course/course.service";
 import {ConfigService} from "../../../services/config/config.service";
+import {ClassroomService} from "../../../services/api/classroom/classroom.service";
+import {SingleMessageResponse} from "../../../interfaces/api/single-message-response";
 
 @Component({
   selector: 'app-classroom-table',
@@ -33,10 +35,12 @@ export class ClassroomTableComponent implements OnInit{
   ]
   courses: Course[] = []
   delete = output<number>();
+  refresh = output<void>();
 
   constructor(
     private router: Router,
     private courseService: CourseService,
+    private classroomService: ClassroomService,
     private configService: ConfigService,
   ) { }
 
@@ -80,7 +84,24 @@ export class ClassroomTableComponent implements OnInit{
     await this.router.navigate(['/admin-classroom-details', classroom.id])
   }
 
-  onDelete(id: number) {
-    this.delete.emit(id)
+  async onDelete(id: number) {
+    let classroom = this.classrooms().find(classroom => classroom.id === id)
+    if (classroom == null) return
+    if (classroom.deleted_at != null) {
+      await this.restoreCourse(id)
+    } else {
+      this.delete.emit(id)
+    }
   }
+
+  async restoreCourse(id: number) {
+    (await this.classroomService.restore_classroom(id))
+      .pipe()
+      .subscribe((res) => {
+        const response = res as SingleMessageResponse
+        this.configService.successHandler(response.message);
+        this.refresh.emit()
+      })
+  }
+
 }

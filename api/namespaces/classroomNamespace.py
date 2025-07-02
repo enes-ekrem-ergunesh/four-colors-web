@@ -97,6 +97,21 @@ class ClassroomDetail(Resource):
             return None
         return {'message': 'Classroom soft-deleted successfully'}, 204
 
+    @ns.doc('restore_classroom')
+    def patch(self, classroom_id):
+        """Restore a soft-deleted classroom by id"""
+        block_non_admin()
+        classroom = Classroom(classroom_id=classroom_id)
+        if not classroom:
+            ns.abort(404, "Classroom not found")
+            return None
+        try:
+            classroom.restore()
+        except ValueError as ve:
+            ns.abort(400, str(ve))
+            return None
+        return {'message': 'Classroom restored successfully'}, 200
+
 @ns.route('/course/<int:course_id>')
 class CourseClassroomList(Resource):
     @ns.doc('get_classrooms_by_course_id')

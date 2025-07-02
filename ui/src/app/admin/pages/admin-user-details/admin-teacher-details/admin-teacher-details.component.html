@@ -35,7 +35,7 @@
           </button>
         </div>
       </div>
-      <app-course-table (delete)="unassign_course($event)" [courses]="teacherCourses"></app-course-table>
+      <app-course-table (delete)="unassign_course($event)" (refresh)="refresh_the_view()" [courses]="teacherCourses"></app-course-table>
     </div>
   </div>
   <div class="row mt-3">
@@ -54,7 +54,7 @@
           </button>
         </div>
       </div>
-      <app-classroom-table (delete)="unassign_classroom($event)" [classrooms]="teacherClassrooms"></app-classroom-table>
+      <app-classroom-table (delete)="unassign_classroom($event)" (refresh)="refresh_the_view()" [classrooms]="teacherClassrooms"></app-classroom-table>
     </div>
   </div>
 </div>

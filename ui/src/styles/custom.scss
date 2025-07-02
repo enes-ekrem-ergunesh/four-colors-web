@@ -9,3 +9,7 @@
   overflow: auto;
   height: calc(100vh - 56px);
 }
+
+.table-deleted-row {
+  --bs-table-bg: rgba(255, 0, 0, 0.3);
+}

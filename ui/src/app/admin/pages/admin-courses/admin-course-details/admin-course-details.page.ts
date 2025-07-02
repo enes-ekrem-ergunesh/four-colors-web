@@ -64,12 +64,6 @@ export class AdminCourseDetailsPage implements OnInit {
 
   async getCourseClassrooms(){
     (await this.classroomService.get_classrooms_by_course_id(this.courseId))
-      // .pipe(
-      //   catchError(error => {
-      //     this.configService.errorHandler(error, true)
-      //     throw error
-      //   })
-      // )
       .subscribe(res => {
         this.courseClassrooms = res as Classroom[];
       })
@@ -77,12 +71,6 @@ export class AdminCourseDetailsPage implements OnInit {
 
   async getCourseTeachers(){
     (await this.teacherService.get_teachers_by_course_id(this.courseId))
-      // .pipe(
-      //   catchError(error => {
-      //     this.configService.errorHandler(error, true)
-      //     throw error
-      //   })
-      // )
       .subscribe(res => {
         this.courseTeachers = res as User[];
       })

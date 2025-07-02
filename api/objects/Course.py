@@ -58,6 +58,14 @@ class Course:
         except pymysql.err.IntegrityError as e:
             raise ValueError("Course cannot be deleted due to existing sessions or other dependencies")
 
+    def restore(self):
+        if Course.dao is None:
+            Course.dao = CourseDAO()
+        try:
+            Course.dao.restore(self.id)
+        except pymysql.err.IntegrityError as e:
+            raise ValueError("Course cannot be restored due to existing sessions or other dependencies")
+
 
 class CourseManager:
     def __init__(self):

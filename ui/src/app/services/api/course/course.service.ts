@@ -35,4 +35,8 @@ export class CourseService {
     return this.http.delete(this.api_url + '/course/' + course_id, await this.configService.authHeader(true))
   }
 
+  async restore_course(course_id: number) {
+    return this.http.patch(this.api_url + '/course/' + course_id, {}, await this.configService.authHeader(true))
+  }
+
 }

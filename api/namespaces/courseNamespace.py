@@ -97,6 +97,21 @@ class CourseSingle(Resource):
             return None
         return {'message': 'Course soft-deleted successfully'}, 204
 
+    @ns.doc('restore_course')
+    def patch(self, course_id):
+        """Restore a soft-deleted course by id"""
+        block_non_admin()
+        course = Course(course_id=course_id)
+        if not course:
+            ns.abort(404, "Course not found")
+            return None
+        try:
+            course.restore()
+        except ValueError as ve:
+            ns.abort(400, str(ve))
+            return None
+        return {'message': 'Course restored successfully'}, 200
+
 @ns.route('/teacher/<int:teacher_id>')
 class CoursesByTeacher(Resource):
     @ns.doc('get_courses_by_teacher')

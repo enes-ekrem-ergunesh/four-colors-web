@@ -39,4 +39,8 @@ export class ClassroomService {
     return this.http.delete(this.api_url + '/classroom/' + classroom_id, await this.configService.authHeader(true))
   }
 
+  async restore_classroom(classroom_id: number) {
+    return this.http.patch(this.api_url + '/classroom/' + classroom_id, {}, await this.configService.authHeader(true))
+  }
+
 }
