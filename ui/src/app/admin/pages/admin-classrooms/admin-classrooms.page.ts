@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {Nav} from "../../../interfaces/ui/nav";
 import {CommonTsService} from "../../../services/common-ts/common-ts.service";
 import {ConfigService} from "../../../services/config/config.service";
@@ -16,11 +16,12 @@ import {ClassroomTableComponent} from "../../../components/complex/classroom-tab
   templateUrl: './admin-classrooms.page.html',
   styleUrls: ['./admin-classrooms.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, NavbarComponent, RouterLink, RouterLinkActive, ClassroomTableComponent]
+  imports: [CommonModule, FormsModule, NavbarComponent, RouterLink, RouterLinkActive, ClassroomTableComponent, ReactiveFormsModule]
 })
 export class AdminClassroomsPage implements OnInit {
   navs!: Nav[]
   classrooms: Classroom[] = [];
+  show_deleted_classrooms = new FormControl<boolean>(true);
 
   constructor(
     common_ts: CommonTsService,
@@ -65,4 +66,10 @@ export class AdminClassroomsPage implements OnInit {
     await this.get_classrooms()
   }
 
+  filter_classrooms() {
+    if (this.show_deleted_classrooms.value) {
+      return this.classrooms
+    }
+    return this.classrooms.filter(classroom => classroom.deleted_at === null)
+  }
 }

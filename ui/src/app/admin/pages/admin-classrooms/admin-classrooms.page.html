@@ -1,14 +1,16 @@
 <app-navbar [navs]="navs" [logout]="true" [is_admin_page]="true"></app-navbar>
 <div class="mx-0 mx-md-3">
   <div class="d-flex">
+    <input [formControl]="show_deleted_classrooms" type="checkbox" class="btn-check" id="btn-check-outlined" autocomplete="off">
+    <label class="btn btn-outline-secondary ms-auto my-1 me-1 btn-sm" for="btn-check-outlined">Show Deleted Classrooms</label>
     <a
       routerLink="/new-classroom"
       routerLinkActive="active"
-      class="btn btn-outline-primary ms-auto my-1 me-1 btn-sm"
+      class="btn btn-outline-primary my-1 me-1 btn-sm"
       role="button"
     >
       New Classroom
     </a>
   </div>
-  <app-classroom-table (delete)="soft_delete_classroom($event)" (refresh)="refresh_the_view()" [classrooms]="classrooms"></app-classroom-table>
+  <app-classroom-table (delete)="soft_delete_classroom($event)" (refresh)="refresh_the_view()" [classrooms]="filter_classrooms()"></app-classroom-table>
 </div>

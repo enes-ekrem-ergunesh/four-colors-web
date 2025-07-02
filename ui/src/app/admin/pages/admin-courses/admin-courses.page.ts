@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {Nav} from "../../../interfaces/ui/nav";
 import {Course} from "../../../interfaces/api/course";
 import {NavbarComponent} from "../../../components/complex/navbar/navbar.component";
@@ -17,11 +17,12 @@ import {Classroom} from "../../../interfaces/api/classroom";
   templateUrl: './admin-courses.page.html',
   styleUrls: ['./admin-courses.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, NavbarComponent, RouterLink, RouterLinkActive, CourseTableComponent]
+  imports: [CommonModule, FormsModule, NavbarComponent, RouterLink, RouterLinkActive, CourseTableComponent, ReactiveFormsModule]
 })
 export class AdminCoursesPage implements OnInit {
   navs!: Nav[]
   courses: Course[] = [];
+  show_deleted_courses = new FormControl<boolean>(true);
 
   constructor(
     common_ts: CommonTsService,
@@ -34,7 +35,6 @@ export class AdminCoursesPage implements OnInit {
   async ngOnInit() {
     await this.get_courses()
   }
-
 
   async soft_delete_course(course_id: number) {
     (await this.courseService.soft_delete_course(course_id))
@@ -50,7 +50,7 @@ export class AdminCoursesPage implements OnInit {
       })
   }
 
-  async get_courses(){
+  async get_courses() {
     (await this.courseService.get_courses())
       .pipe(
         catchError(error => {
@@ -63,8 +63,15 @@ export class AdminCoursesPage implements OnInit {
       })
   }
 
-  async refresh_the_view(){
+  async refresh_the_view() {
     await this.get_courses()
+  }
+
+  filter_courses() {
+    if (this.show_deleted_courses.value) {
+      return this.courses
+    }
+    return this.courses.filter(course => course.deleted_at === null)
   }
 
 }
