@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewChecked, Component, OnInit} from '@angular/core';
 import {
   UserDetailsHeaderComponent
 } from "../../../../components/complex/user-details-header/user-details-header.component";
@@ -31,7 +31,7 @@ import {DatePipe, NgForOf} from "@angular/common";
   ],
   standalone: true
 })
-export class AdminStudentDetailsComponent  implements OnInit {
+export class AdminStudentDetailsComponent  implements OnInit, AfterViewChecked {
   userId!: number;
   user: User = {} as User;
   studentClassrooms: Classroom[] = []
@@ -57,6 +57,19 @@ export class AdminStudentDetailsComponent  implements OnInit {
     await this.refresh_the_view();
   }
 
+  ngAfterViewChecked(): void {
+    if (this.availableClassrooms.length !== this.previousAvailableClassroomsLength) {
+      this.needsTooltipUpdate = true;
+      this.previousAvailableClassroomsLength = this.availableClassrooms.length;
+    }
+
+    if (this.needsTooltipUpdate) {
+      setTimeout(() => {
+        this.initTooltips();
+        this.needsTooltipUpdate = false;
+      }, 0);
+    }
+  }
 
   async getUserDetails() {
     let res = await firstValueFrom((await this.adminService.get_user_by_id(this.userId))
