@@ -13,6 +13,8 @@ import {catchError} from "rxjs";
 import {NavbarComponent} from "../../../../components/complex/navbar/navbar.component";
 import {UserTableComponent} from "../../../../components/complex/user-table/user-table.component";
 import {StudentService} from "../../../../services/api/student/student.service";
+import {CourseService} from "../../../../services/api/course/course.service";
+import {Course} from "../../../../interfaces/api/course";
 
 @Component({
   selector: 'app-admin-classroom-details',
@@ -24,6 +26,7 @@ import {StudentService} from "../../../../services/api/student/student.service";
 export class AdminClassroomDetailsPage implements OnInit {
   navs!: Nav[]
   classroomId!: number;
+  courseName = '';
   classroom: Classroom = {} as Classroom;
   classroomTeachers: User[] = []
   classroomStudents: User[] = [];
@@ -32,6 +35,7 @@ export class AdminClassroomDetailsPage implements OnInit {
     common_ts: CommonTsService,
     private readonly route: ActivatedRoute,
     private classroomService: ClassroomService,
+    private courseService: CourseService,
     private teacherService: TeacherService,
     private studentService: StudentService,
     private configService: ConfigService,
@@ -54,9 +58,19 @@ export class AdminClassroomDetailsPage implements OnInit {
           throw error
         })
       )
-      .subscribe(res => {
+      .subscribe(async res => {
         this.classroom = res as Classroom;
-        console.log(this.classroom);
+        (await this.courseService.get_course_by_id(this.classroom.course_id))
+          .pipe(
+            catchError(error => {
+              this.configService.errorHandler(error, true)
+              throw error
+            })
+          )
+          .subscribe(res => {
+            const course = res as Course;
+            this.courseName = course.name;
+          })
       })
   }
 
