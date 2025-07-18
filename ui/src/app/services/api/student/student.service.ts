@@ -15,11 +15,6 @@ export class StudentService {
   ) {
   }
 
-  async get_students_by_course_id(course_id: number) {
-    return this.http.get(this.api_url + '/student/course/' + course_id,
-      await this.configService.authHeader(true))
-  }
-
   async get_students_by_classroom_id(classroom_id: number) {
     return this.http.get(this.api_url + '/student/classroom/' + classroom_id,
       await this.configService.authHeader(true))

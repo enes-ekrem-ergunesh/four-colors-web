@@ -1,20 +1,14 @@
 import {AfterViewChecked, Component, OnInit} from '@angular/core';
-import {
-  UserDetailsHeaderComponent
-} from "../../../../components/complex/user-details-header/user-details-header.component";
 import {User} from "../../../../interfaces/api/user";
-import {Course} from "../../../../interfaces/api/course";
 import {Classroom} from "../../../../interfaces/api/classroom";
 import {Tooltip} from "bootstrap";
 import {ActivatedRoute, RouterLink} from "@angular/router";
 import {AdminService} from "../../../../services/api/admin/admin.service";
-import {CourseService} from "../../../../services/api/course/course.service";
 import {ClassroomService} from "../../../../services/api/classroom/classroom.service";
 import {ConfigService} from "../../../../services/config/config.service";
 import {StudentService} from "../../../../services/api/student/student.service";
 import {catchError, firstValueFrom} from "rxjs";
 import {ClassroomTableComponent} from "../../../../components/complex/classroom-table/classroom-table.component";
-import {CourseTableComponent} from "../../../../components/complex/course-table/course-table.component";
 import {DatePipe, NgForOf} from "@angular/common";
 
 @Component({
@@ -22,9 +16,7 @@ import {DatePipe, NgForOf} from "@angular/common";
   templateUrl: './admin-student-details.component.html',
   styleUrls: ['./admin-student-details.component.scss'],
   imports: [
-    UserDetailsHeaderComponent,
     ClassroomTableComponent,
-    CourseTableComponent,
     DatePipe,
     NgForOf,
     RouterLink
@@ -45,7 +37,6 @@ export class AdminStudentDetailsComponent  implements OnInit, AfterViewChecked {
   constructor(
     private readonly route: ActivatedRoute,
     private adminService: AdminService,
-    private courseService: CourseService,
     private classroomService: ClassroomService,
     private configService: ConfigService,
     private studentService: StudentService

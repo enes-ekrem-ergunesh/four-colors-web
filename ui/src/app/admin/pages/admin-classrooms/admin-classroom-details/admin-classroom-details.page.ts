@@ -6,13 +6,13 @@ import {Classroom} from "../../../../interfaces/api/classroom";
 import {User} from "../../../../interfaces/api/user";
 import {CommonTsService} from "../../../../services/common-ts/common-ts.service";
 import {ActivatedRoute, RouterLink} from "@angular/router";
-import {CourseService} from "../../../../services/api/course/course.service";
 import {ClassroomService} from "../../../../services/api/classroom/classroom.service";
 import {TeacherService} from "../../../../services/api/teacher/teacher.service";
 import {ConfigService} from "../../../../services/config/config.service";
 import {catchError} from "rxjs";
 import {NavbarComponent} from "../../../../components/complex/navbar/navbar.component";
 import {UserTableComponent} from "../../../../components/complex/user-table/user-table.component";
+import {StudentService} from "../../../../services/api/student/student.service";
 
 @Component({
   selector: 'app-admin-classroom-details',
@@ -31,9 +31,9 @@ export class AdminClassroomDetailsPage implements OnInit {
   constructor(
     common_ts: CommonTsService,
     private readonly route: ActivatedRoute,
-    private courseService: CourseService,
     private classroomService: ClassroomService,
     private teacherService: TeacherService,
+    private studentService: StudentService,
     private configService: ConfigService,
   ) {
     this.navs = common_ts.admin_navs
@@ -43,6 +43,7 @@ export class AdminClassroomDetailsPage implements OnInit {
   async ngOnInit() {
     await this.getClassroomDetails()
     await this.getClassroomTeachers()
+    await this.getClassroomStudents()
   }
 
   async getClassroomDetails() {
@@ -63,6 +64,13 @@ export class AdminClassroomDetailsPage implements OnInit {
     (await this.teacherService.get_teachers_by_classroom_id(this.classroomId))
       .subscribe(res => {
         this.classroomTeachers = res as User[];
+      })
+  }
+
+  async getClassroomStudents(){
+    (await this.studentService.get_students_by_classroom_id(this.classroomId))
+      .subscribe(res => {
+        this.classroomStudents = res as User[];
       })
   }
 

@@ -1,11 +1,9 @@
+@use "src/styles/custom.scss";
+
 p {
   width: fit-content;
 }
 
 app-filter-dropdown {
   padding-left: 5px;
-}
-
-.table-responsive{
-  height: calc(100vh - 67px - 39px); // 67px navbar, 39px new user button
 }
