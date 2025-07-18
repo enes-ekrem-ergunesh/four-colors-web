@@ -4,7 +4,7 @@ from flask_restx import Namespace, Resource, fields
 from dao.teacherDao import TeacherDAO
 
 from objects.User import User
-from namespaces.userNamespace import user_model
+from namespaces.userNamespace import user_model, overwrite_nationality_fields
 from special_logger import special_log
 
 dao = TeacherDAO()
@@ -60,7 +60,7 @@ class TeacherCourse(Resource):
         return {'message': 'Teacher removed from course successfully'}, 200
 
 @ns.route('/classroom/<int:classroom_id>')
-class CourseTeacher(Resource):
+class ClassroomTeacher(Resource):
     @ns.doc('get_teachers_by_classroom_id')
     @ns.marshal_list_with(user_model)
     def get(self, classroom_id):
@@ -69,6 +69,7 @@ class CourseTeacher(Resource):
         teachers = dao.get_teachers_by_classroom_id(classroom_id)
         if not teachers:
             ns.abort(404, "No teachers found for the given classroom id")
+        overwrite_nationality_fields(teachers)
         return teachers
 
 @ns.route('/classroom/')

@@ -2,6 +2,7 @@ from flask import request
 from flask_restx import Namespace, Resource, fields
 
 import dao.userDao as userDao
+import dao.countryDao as countryDao
 
 from objects.User import User
 from special_logger import special_log
@@ -11,6 +12,7 @@ PASSWORD_REGEX = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$"
 ALLOWED_GENDERS = {"male", "female"}
 
 dao = userDao.UserDAO()
+countryDao = countryDao.CountryDAO()
 
 ns = Namespace('user', description='User related operations')
 
@@ -71,6 +73,11 @@ def get_user_object(email=None, user_id=None):
         ns.abort(500, "Internal server error: email or user_id is required")
         return None
     return user
+
+def overwrite_nationality_fields(users):
+    for user in users:
+        if user['nationality']:
+            user['nationality'] = countryDao.get_by_id(user['nationality']).get("name")
 
 @ns.route('/self')
 class UserSelf(Resource):

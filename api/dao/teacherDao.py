@@ -19,10 +19,11 @@ where course_id = %s
 
     def get_teachers_by_classroom_id(self, classroom_id):
         query = """
-select u.*
+select u.id as 'id', u.*, ud.*
 from teachers t
 join users u on t.id = u.id
 join teacher_classrooms tc on t.id = tc.teacher_id
+join user_details ud on u.id = ud.id
 where classroom_id = %s
 ;
 """
