@@ -3,18 +3,16 @@ import {NavbarComponent} from "../../components/complex/navbar/navbar.component"
 import {Nav} from "../../interfaces/ui/nav";
 import {StorageService} from "../../services/storage/storage.service";
 import {User} from "../../interfaces/api/user";
-import {Token} from "../../interfaces/api/token";
 import {UserService} from "../../services/api/user/user.service";
 import {catchError} from "rxjs";
 import {ConfigService} from "../../services/config/config.service";
 import {HomeCarouselComponent} from "./home-carousel/home-carousel.component";
-import {IonButton} from "@ionic/angular/standalone";
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
-  imports: [NavbarComponent, HomeCarouselComponent, IonButton],
+  imports: [NavbarComponent, HomeCarouselComponent],
 })
 export class HomePage implements OnInit {
   navs: Nav[] = [

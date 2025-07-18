@@ -27,12 +27,14 @@ where t.id = %s
         params = (teacher_id,)
         return self.execute_query(query, params)
 
-    def get_teacher_available_classrooms(self, teacher_id):
-        query = """
-select cr.*
-from classrooms cr
-join teacher_courses tc on tc.course_id = cr.course_id
-where tc.teacher_id = %s;
+    def get_all_by_student_id(self, student_id):
+        query = f"""
+select c.*
+from classrooms c
+join student_classrooms sc on c.id = sc.classroom_id
+join students s on sc.student_id = s.id
+where s.id = %s
+;
 """
-        params = (teacher_id,)
+        params = (student_id,)
         return self.execute_query(query, params)

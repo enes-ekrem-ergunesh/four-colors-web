@@ -129,7 +129,7 @@ export class AdminTeacherDetailsComponent implements OnInit, AfterViewChecked {
   }
 
   async get_available_classrooms() {
-    console.log("RUNNER 0")
+
     let res = await firstValueFrom((await this.classroomService.get_classrooms())
       .pipe(
         catchError(error => {
@@ -138,14 +138,14 @@ export class AdminTeacherDetailsComponent implements OnInit, AfterViewChecked {
         })
       )
     )
-    console.log("RUNNER 1")
+
     let classrooms = res as Classroom[];
     this.availableClassrooms = classrooms.filter(
       classroom => !this.teacherClassrooms.map(
         classroom => classroom.id
       ).includes(classroom.id)
     );
-    console.log("RUNNER 2", this.availableClassrooms.length)
+
   }
 
   async assign_to_course() {
@@ -248,13 +248,12 @@ export class AdminTeacherDetailsComponent implements OnInit, AfterViewChecked {
   }
 
   initTooltips() {
-    console.log("RUNNER 3")
     for (let i = 0; i < this.tooltipList.length; i++) {
       this.tooltipList[i].dispose()
     }
     this.tooltipList = [];
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-    console.log(tooltipTriggerList);
+
     for (let i = 0; i < tooltipTriggerList.length; i++) {
       this.tooltipList.push(new Tooltip(tooltipTriggerList[i]));
     }

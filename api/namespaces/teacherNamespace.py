@@ -3,7 +3,6 @@ from flask_restx import Namespace, Resource, fields
 
 from dao.teacherDao import TeacherDAO
 
-from objects.User import User
 from namespaces.userNamespace import user_model, overwrite_nationality_fields
 from special_logger import special_log
 
@@ -44,19 +43,27 @@ class TeacherCourse(Resource):
         course_id = data.get('course_id')
         if not teacher_id or not course_id:
             ns.abort(400, "Missing teacher_id or course_id")
-        dao.assign_teacher_to_course(teacher_id, course_id)
+        try:
+            dao.assign_teacher_to_course(teacher_id, course_id)
+        except Exception as e:
+            special_log("/teacher/course", f"Error assigning teacher to course: {e}")
+            ns.abort(500, "Failed to assign teacher to course")
         return {'message': 'Teacher assigned to course successfully'}, 201
 
     @ns.doc('delete_teacher_from_course')
     @ns.expect(teacher_course_relation_model)
     def delete(self):
-        """Remove teacher from course"""
+        """Remove teacher from the course"""
         data = request.json
         teacher_id = data.get('teacher_id')
         course_id = data.get('course_id')
         if not teacher_id or not course_id:
             ns.abort(400, "Missing teacher_id or course_id")
-        dao.unassign_teacher_from_course(teacher_id, course_id)
+        try:
+            dao.unassign_teacher_from_course(teacher_id, course_id)
+        except Exception as e:
+            special_log("/teacher/course", f"Error removing teacher from course: {e}")
+            ns.abort(500, "Failed to remove teacher from course")
         return {'message': 'Teacher removed from course successfully'}, 200
 
 @ns.route('/classroom/<int:classroom_id>')
@@ -83,7 +90,11 @@ class TeacherClassroom(Resource):
         classroom_id = data.get('classroom_id')
         if not teacher_id or not classroom_id:
             ns.abort(400, "Missing teacher_id or classroom_id")
-        dao.assign_teacher_to_classroom(teacher_id, classroom_id)
+        try:
+            dao.assign_teacher_to_classroom(teacher_id, classroom_id)
+        except Exception as e:
+            special_log("/teacher/classroom", f"Error assigning teacher to classroom: {e}")
+            ns.abort(500, "Failed to assign teacher to classroom")
         return {'message': 'Teacher assigned to classroom successfully'}, 201
 
     @ns.doc('delete_teacher_from_classroom')
@@ -95,5 +106,9 @@ class TeacherClassroom(Resource):
         classroom_id = data.get('classroom_id')
         if not teacher_id or not classroom_id:
             ns.abort(400, "Missing teacher_id or classroom_id")
-        dao.unassign_teacher_from_classroom(teacher_id, classroom_id)
+        try:
+            dao.unassign_teacher_from_classroom(teacher_id, classroom_id)
+        except Exception as e:
+            special_log("/teacher/classroom", f"Error removing teacher from classroom: {e}")
+            ns.abort(500, "Failed to remove teacher from classroom")
         return {'message': 'Teacher removed from classroom successfully'}, 200

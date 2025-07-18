@@ -27,6 +27,10 @@ export class ClassroomService {
     return this.http.get(this.api_url + '/classroom/teacher/'+teacher_id, await this.configService.authHeader(true))
   }
 
+  async get_classrooms_by_student_id(student_id: number) {
+    return this.http.get(this.api_url + '/classroom/student/'+student_id, await this.configService.authHeader(true))
+  }
+
   async new_classroom(classroom: NewClassroom) {
     return this.http.post(this.api_url + '/classroom/', classroom, await this.configService.authHeader(true))
   }

@@ -122,7 +122,6 @@ class CourseClassroomList(Resource):
         classroom_manager.get_classrooms_by_course_id(course_id)
         return classroom_manager.classrooms
 
-
 @ns.route('/teacher/<int:teacher_id>')
 class TeacherClassroomList(Resource):
     @ns.doc('get_classrooms_by_teacher_id')
@@ -133,13 +132,23 @@ class TeacherClassroomList(Resource):
         classroom_manager.get_classrooms_by_teacher_id(teacher_id)
         return classroom_manager.classrooms
 
-
-@ns.route('/teacher/available/<int:teacher_id>')
-class TeacherAvailableClassroomList(Resource):
-    @ns.doc('get_available_classrooms_by_teacher_id')
+@ns.route('/student/<int:student_id>')
+class StudentClassroomList(Resource):
+    @ns.doc('get_classrooms_by_student_id')
     @ns.marshal_list_with(classroom_model)
-    def get(self, teacher_id):
-        """Get available classrooms by teacher id"""
+    def get(self, student_id):
+        """Get classrooms by student id"""
         classroom_manager = ClassroomManager()
-        classroom_manager.get_available_classrooms_by_teacher_id(teacher_id)
+        classroom_manager.get_classrooms_by_student_id(student_id)
         return classroom_manager.classrooms
+
+@ns.route('/student/available/<int:student_id>')
+class StudentAvailableClassroomList(Resource):
+    @ns.doc('get_available_classrooms_by_student_id')
+    @ns.marshal_list_with(classroom_model)
+    def get(self, student_id):
+        """Get available classrooms by student id"""
+        classroom_manager = ClassroomManager()
+        classroom_manager.get_available_classrooms_by_student_id(student_id)
+        return classroom_manager.classrooms
+

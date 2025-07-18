@@ -84,8 +84,12 @@ class ClassroomManager:
         data = self.dao.get_all_by_teacher_id(teacher_id)
         self.load_data(data)
 
-    def get_available_classrooms_by_teacher_id(self, teacher_id):
-        data = self.dao.get_teacher_available_classrooms(teacher_id)
+    def get_classrooms_by_student_id(self, student_id):
+        data = self.dao.get_all_by_student_id(student_id)
+        self.load_data(data)
+
+    def get_available_classrooms_by_student_id(self, student_id):
+        data = self.dao.get_student_available_classrooms(student_id)
         self.load_data(data)
 
     def load_data(self, data):
