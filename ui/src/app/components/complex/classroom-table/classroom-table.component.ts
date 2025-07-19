@@ -25,8 +25,8 @@ export class ClassroomTableComponent implements OnInit{
   classrooms = input<Classroom[]>([]);
   headers = [
     {title: 'ID', button_id: 'id'},
-    {title: 'Course', button_id: 'course_id'},
     {title: 'Name', button_id: 'name'},
+    {title: 'Course', button_id: 'course_id'},
     {title: 'Sessions', button_id: 'number_of_sessions'},
     {title: 'Session Duration', button_id: 'expected_session_duration'},
     {title: 'Created at', button_id: 'created_at'},

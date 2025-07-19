@@ -14,8 +14,8 @@
     <tr *ngFor="let classroom of classrooms()" (click)="openClassroom(classroom)"
         [class.table-deleted-row]="classroom.deleted_at !== null">
       <th scope="row">{{ classroom.id }}</th>
-      <td>{{ getCourseById(classroom.course_id)?.name }}</td>
       <td>{{ classroom.name }}</td>
+      <td>{{ getCourseById(classroom.course_id)?.name }}</td>
       <td>{{ classroom.number_of_sessions }}</td>
       <td>{{ classroom.expected_session_duration }}</td>
       <td>{{ classroom.created_at | date }}</td>
