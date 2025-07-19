@@ -43,9 +43,7 @@ export class AdminCourseDetailsPage implements OnInit {
   }
 
   async ngOnInit() {
-    await this.getCourseDetails()
-    await this.getCourseClassrooms()
-    await this.getCourseTeachers()
+    await this.refresh_the_view()
   }
 
   async getCourseDetails() {
@@ -74,6 +72,26 @@ export class AdminCourseDetailsPage implements OnInit {
       .subscribe(res => {
         this.courseTeachers = res as User[];
       })
+  }
+
+  async soft_delete_classroom(classroom_id: number) {
+    (await this.classroomService.soft_delete_classroom(classroom_id))
+      .pipe(
+        catchError(error => {
+          this.configService.errorHandler(error, true)
+          throw error
+        })
+      )
+      .subscribe(async () => {
+        this.configService.successHandler("Classroom soft deleted successfully");
+        await this.refresh_the_view();
+      })
+  }
+
+  async refresh_the_view(){
+    await this.getCourseDetails()
+    await this.getCourseClassrooms()
+    await this.getCourseTeachers()
   }
 
 
