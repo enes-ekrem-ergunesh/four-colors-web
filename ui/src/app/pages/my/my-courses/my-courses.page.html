@@ -1,0 +1,6 @@
+<app-navbar [navs]="navs" [active_nav]="0" [search]="true" [logout]="true"></app-navbar>
+<app-student-courses *ngIf="currentUser.type === 'student'; else Teacher"></app-student-courses>
+
+<ng-template #Teacher>
+  <app-teacher-courses></app-teacher-courses>
+</ng-template>

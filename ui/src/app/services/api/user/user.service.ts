@@ -3,7 +3,8 @@ import {environment} from "../../../../environments/environment";
 import {StorageService} from "../../storage/storage.service";
 import {HttpClient} from "@angular/common/http";
 import {ConfigService} from "../../config/config.service";
-import {catchError} from "rxjs";
+import {BehaviorSubject, catchError} from "rxjs";
+import {User} from "../../../interfaces/api/user";
 
 @Injectable({
   providedIn: 'root'

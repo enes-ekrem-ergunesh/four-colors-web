@@ -26,11 +26,6 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/login/login.page').then(m => m.LoginPage)
   },
   {
-    path: 'my',
-    loadComponent: () => import('./pages/my/my.page').then( m => m.MyPage),
-    canActivate: [userAuthGuard]
-  },
-  {
     path: 'admin',
     redirectTo: 'admin-home',
     pathMatch: 'full',
@@ -95,6 +90,14 @@ export const routes: Routes = [
   {
     path: 'new-classroom',
     loadComponent: () => import('./admin/pages/admin-classrooms/new-classroom/new-classroom.page').then( m => m.NewClassroomPage)
+  },
+  {
+    path: 'my-courses',
+    loadComponent: () => import('./pages/my/my-courses/my-courses.page').then( m => m.MyCoursesPage)
+  },
+  {
+    path: 'my-home',
+    loadComponent: () => import('./pages/my/my-home/my-home.page').then( m => m.MyHomePage)
   },
   {
     path: '**',

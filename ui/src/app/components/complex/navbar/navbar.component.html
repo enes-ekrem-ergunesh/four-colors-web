@@ -49,7 +49,7 @@
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
       <button *ngIf="login()" class="btn btn-primary" routerLink="/login">Login</button>
-      <button *ngIf="profile_page()" class="btn btn-primary" routerLink="/my">{{ userName }}</button>
+      <button *ngIf="profile_page()" class="btn btn-primary" routerLink="/my-home">{{ userName }}</button>
       <button *ngIf="logout()" class="btn btn-outline-danger" (click)="onLogout()">Logout</button>
     </div>
   </div>
