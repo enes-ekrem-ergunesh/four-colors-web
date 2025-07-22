@@ -28,6 +28,7 @@ class UserDAO(BaseDAO):
                 CASE
                     WHEN t.id IS NOT NULL THEN 'teacher'
                     WHEN s.id IS NOT NULL THEN 'student'
+                    ELSE 'admin'
                 END AS type
             FROM users u
             LEFT JOIN teachers t ON u.id = t.id

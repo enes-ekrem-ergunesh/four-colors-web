@@ -2,9 +2,11 @@ import jwt
 import datetime
 from config import config
 from dao.tokenDao import TokenDAO
+from dao.userDao import UserDAO
 
 class Token:
     dao = None
+    user_dao = None
 
     def __init__(self, user_id=None, token=None, token_id=None, delta_seconds=None, record=None):
         if Token.dao is None:
@@ -29,9 +31,13 @@ class Token:
 
     def _generate_jwt(self, user_id, delta_seconds):
         """Generate a JWT token"""
+        if Token.user_dao is None:
+            Token.user_dao = UserDAO()
+
         now = datetime.datetime.now(datetime.timezone.utc)
         exp = now + datetime.timedelta(seconds=delta_seconds)
-        payload = {"user_id": user_id, "exp": exp, "iat": now}
+        role = Token.user_dao.get_by_id_role(user_id).get("type")
+        payload = {"user_id": user_id, "role": role, "exp": exp, "iat": now}
         self.token = jwt.encode(payload, config.get('JWT_SECRET'), algorithm="HS256")
         self.user_id = user_id
         self.type = "jwt"
